@@ -1,5 +1,5 @@
 // Head Masters Page
-import { ArrowLeft, Award, Users, TrendingUp } from 'lucide-react';
+import { ArrowLeft, Award, Users } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
 const HeadMastersPage = () => {
