@@ -1,22 +1,16 @@
 // Admin Navigation Component
-import { LayoutDashboard, School, Database, FileText, Settings, Users, LogIn, LogOut, User } from 'lucide-react';
+import { LayoutDashboard, School, Database, FileText, Settings, Users } from 'lucide-react';
 
 interface AdminNavigationProps {
   activeTab: string;
   onTabChange: (tab: string) => void;
-  isLoggedIn: boolean;
-  username?: string;
-  onLoginClick: () => void;
-  onLogout: () => void;
+  orientation?: 'horizontal' | 'vertical';
 }
 
 const AdminNavigation = ({
   activeTab,
   onTabChange,
-  isLoggedIn,
-  username,
-  onLoginClick,
-  onLogout,
+  orientation = 'horizontal',
 }: AdminNavigationProps) => {
   const tabs = [
     { id: 'dashboard', label: 'Dashboard', icon: LayoutDashboard },
@@ -28,7 +22,7 @@ const AdminNavigation = ({
   ];
 
   return (
-    <nav className="admin-navigation">
+    <nav className={`admin-navigation admin-navigation--${orientation}`}>
       <div className="admin-navigation__tabs">
         {tabs.map((tab) => {
           const Icon = tab.icon;
@@ -44,25 +38,6 @@ const AdminNavigation = ({
             </button>
           );
         })}
-      </div>
-      <div className="admin-navigation__auth">
-        {isLoggedIn ? (
-          <div className="admin-navigation__user">
-            <div className="admin-navigation__user-info">
-              <User size={16} />
-              <span>{username}</span>
-            </div>
-            <button className="admin-navigation__logout" onClick={onLogout}>
-              <LogOut size={16} />
-              Đăng xuất
-            </button>
-          </div>
-        ) : (
-          <button className="admin-navigation__login" onClick={onLoginClick}>
-            <LogIn size={18} />
-            Đăng nhập
-          </button>
-        )}
       </div>
     </nav>
   );

@@ -1121,11 +1121,27 @@
 
 /* Admin Page Styles */
 .admin-page-container {
-  max-width: 1400px;
-  margin: 0 auto;
-  padding: 0 1.5rem 4rem;
+  width: 100%;
+  max-width: none;
+  margin: 0;
+  padding: 0 1.5rem 4rem 0;
   position: relative;
   z-index: 1;
+}
+
+.admin-layout {
+  display: flex;
+  align-items: stretch;
+  gap: 1.5rem;
+}
+
+.admin-layout__sidebar {
+  flex: 0 0 260px;
+  align-self: stretch;
+}
+
+.admin-layout__content {
+  flex: 1;
 }
 
 .admin-content {
@@ -1136,6 +1152,9 @@
 .admin-navigation {
   background: white;
   border-radius: 1rem;
+}
+
+.admin-navigation--horizontal {
   padding: 0.5rem;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
   margin-bottom: 2rem;
@@ -1148,6 +1167,19 @@
   gap: 1rem;
 }
 
+.admin-navigation--vertical {
+  padding: 1rem;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 1rem;
+  height: 100%;
+  position: sticky;
+  top: 1rem;
+  z-index: 10;
+}
+
 .admin-navigation__tabs {
   display: flex;
   gap: 0.5rem;
@@ -1158,6 +1190,12 @@
 
 .admin-navigation__tabs::-webkit-scrollbar {
   display: none;
+}
+
+.admin-navigation--vertical .admin-navigation__tabs {
+  flex-direction: column;
+  overflow-x: visible;
+  overflow-y: auto;
 }
 
 .admin-navigation__tab {
@@ -2044,6 +2082,72 @@
   background: #fee2e2;
   border-color: #ef4444;
   color: #ef4444;
+}
+
+.admin-navigation--vertical .admin-navigation__auth {
+  margin-left: 0;
+  padding-left: 0;
+  border-left: none;
+  border-top: 1px solid #e5e7eb;
+  padding-top: 0.75rem;
+}
+
+/* Admin Hero Auth (login button top-right) */
+.admin-hero-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1.5rem;
+}
+
+.admin-hero-auth {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.admin-hero-user {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.4rem 0.75rem;
+  border-radius: 999px;
+  background: rgba(15, 23, 42, 0.12);
+  color: #0f172a;
+  font-size: 0.9rem;
+  font-weight: 500;
+}
+
+.admin-hero-auth__button {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.45rem 0.95rem;
+  border-radius: 999px;
+  border: none;
+  cursor: pointer;
+  font-size: 0.9rem;
+  font-weight: 500;
+  transition: all 0.2s ease;
+}
+
+.admin-hero-auth__button--login {
+  background: #ffffff;
+  color: #2563eb;
+  box-shadow: 0 4px 12px rgba(15, 23, 42, 0.15);
+}
+
+.admin-hero-auth__button--login:hover {
+  background: #eff6ff;
+}
+
+.admin-hero-auth__button--logout {
+  background: rgba(248, 250, 252, 0.85);
+  color: #ef4444;
+}
+
+.admin-hero-auth__button--logout:hover {
+  background: #fee2e2;
 }
 
 /* Login Modal */

@@ -1,6 +1,6 @@
 // Administrators Page
 import { useState, useEffect } from 'react';
-import { ArrowLeft, Shield } from 'lucide-react';
+import { ArrowLeft, Shield, LogIn, LogOut, User } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import {
   AdminNavigation,
@@ -66,11 +66,35 @@ const AdministratorsPage = () => {
 
   return (
     <div className="school-project-page">
-      <div className="school-project-hero">
-        <Link to="/school-project" className="school-project-back">
-          <ArrowLeft size={20} />
-          Về giới thiệu dự án
-        </Link>
+      <div className="school-project-hero school-project-hero--admin">
+        <div className="admin-hero-header">
+          <Link to="/school-project" className="school-project-back">
+            <ArrowLeft size={20} />
+            Về giới thiệu dự án
+          </Link>
+          <div className="admin-hero-auth">
+            {isLoggedIn ? (
+              <>
+                <div className="admin-hero-user">
+                  <User size={18} />
+                  <span>{username}</span>
+                </div>
+                <button className="admin-hero-auth__button admin-hero-auth__button--logout" onClick={handleLogout}>
+                  <LogOut size={16} />
+                  Đăng xuất
+                </button>
+              </>
+            ) : (
+              <button
+                className="admin-hero-auth__button admin-hero-auth__button--login"
+                onClick={() => setIsLoginModalOpen(true)}
+              >
+                <LogIn size={16} />
+                Đăng nhập
+              </button>
+            )}
+          </div>
+        </div>
         <div className="school-project-hero-content">
           <div className="school-project-hero-icon">
             <Shield size={48} />
@@ -83,15 +107,18 @@ const AdministratorsPage = () => {
       </div>
 
       <div className="admin-page-container">
-        <AdminNavigation
-          activeTab={activeTab}
-          onTabChange={setActiveTab}
-          isLoggedIn={isLoggedIn}
-          username={username}
-          onLoginClick={() => setIsLoginModalOpen(true)}
-          onLogout={handleLogout}
-        />
-        <div className="admin-content">{renderContent()}</div>
+        <div className="admin-layout">
+          <aside className="admin-layout__sidebar">
+            <AdminNavigation
+              activeTab={activeTab}
+              onTabChange={setActiveTab}
+              orientation="vertical"
+            />
+          </aside>
+          <main className="admin-layout__content">
+            <div className="admin-content">{renderContent()}</div>
+          </main>
+        </div>
       </div>
 
       <LoginModal
