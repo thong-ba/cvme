@@ -30,42 +30,55 @@ const Experience = () => {
   ];
 
   return (
-    <section className="cv-section" id="experience">
-      <div className="cv-section__header">
-        <h2>Experience</h2>
-        <p>Kinh nghiệm thực tế liên quan trực tiếp tới vị trí bạn apply.</p>
-      </div>
-      <div className="cv-timeline">
-        {items.map((item) => (
-          <div key={item.company + item.time} className="cv-timeline__item cv-card">
-            <div className="cv-timeline__meta">
-              <h3>
-                <Building2 size={16} /> {item.company}
-              </h3>
-              <span className="cv-timeline__role">{item.role}</span>
-              <span className="cv-timeline__time">
-                <CircleDot size={12} /> {item.time}
+    <section id="experience" className="py-12 sm:py-16">
+      <div className="mx-auto max-w-3xl px-4">
+        <div className="mb-5">
+          <h2 className="text-2xl font-bold text-slate-900 sm:text-3xl dark:text-slate-100">Experience</h2>
+          <p className="mt-2 text-base text-slate-500 dark:text-slate-400">
+            Kinh nghiệm thực tế liên quan trực tiếp tới vị trí bạn apply.
+          </p>
+        </div>
+        <div className="space-y-6 border-l border-slate-200 pl-4 dark:border-slate-700">
+          {items.map((item) => (
+            <article
+              key={item.company + item.time}
+              className="relative rounded-2xl border border-slate-200 bg-white/80 p-5 shadow-sm dark:border-slate-700 dark:bg-slate-900/60"
+            >
+              <span className="absolute -left-[9px] top-5 flex h-4 w-4 items-center justify-center rounded-full border border-indigo-400 bg-white text-indigo-500 shadow-sm dark:border-indigo-300 dark:bg-slate-900">
+                <CircleDot size={10} />
               </span>
-            </div>
-            <div className="cv-timeline__description">
-              <ul className="cv-timeline__list">
+              <div className="flex flex-wrap items-baseline justify-between gap-2">
+                <h3 className="flex items-center gap-2 text-base font-semibold text-slate-900 dark:text-slate-100">
+                  <Building2 size={18} /> {item.company}
+                </h3>
+                <span className="text-sm font-medium text-slate-500 dark:text-slate-400">{item.time}</span>
+              </div>
+              <p className="mt-1 text-sm font-semibold uppercase tracking-wide text-indigo-600 dark:text-indigo-300">
+                {item.role}
+              </p>
+              <ul className="mt-3 space-y-2 text-base leading-7 text-slate-700 dark:text-slate-300">
                 {item.description.map((desc, index) => (
                   <li key={index}>{desc}</li>
                 ))}
               </ul>
-            </div>
-            <div className="cv-timeline__keywords">
-              <span className="cv-timeline__keywords-label">FE / Technical Keywords:</span>
-              <div className="cv-tag-list">
-                {item.keywords.map((keyword) => (
-                  <span key={keyword} className="cv-tag">
-                    {keyword}
-                  </span>
-                ))}
+              <div className="mt-4 border-t border-slate-200 pt-3 dark:border-slate-700">
+                <span className="mb-1 block text-xs font-semibold uppercase tracking-wide text-slate-500 dark:text-slate-400">
+                  FE / Technical Keywords
+                </span>
+                <div className="flex flex-wrap gap-2">
+                  {item.keywords.map((keyword) => (
+                    <span
+                      key={keyword}
+                      className="inline-flex items-center rounded-full bg-slate-100 px-3 py-1.5 text-sm font-medium text-slate-700 dark:bg-slate-800 dark:text-slate-200"
+                    >
+                      {keyword}
+                    </span>
+                  ))}
+                </div>
               </div>
-            </div>
-          </div>
-        ))}
+            </article>
+          ))}
+        </div>
       </div>
     </section>
   );

@@ -28,38 +28,49 @@ const Projects = () => {
   ];
 
   return (
-    <section className="cv-section" id="projects">
-      <div className="cv-section__header">
-        <h2>Projects</h2>
-        <p>3–6 project tiêu biểu chứng minh năng lực thật.</p>
-      </div>
-      <div className="cv-projects">
-        {projects.map((project) => (
-          <article key={project.name} className="cv-project-card">
-            <h3>
-              <FolderGit2 size={16} /> {project.name}
-            </h3>
-            <p className="cv-project-card__desc">{project.description}</p>
-            <div className="cv-tag-list">
-              {project.stack.map((tech) => (
-                <span key={tech} className="cv-tag">
-                  {tech}
-                </span>
-              ))}
-            </div>
-            <div className="cv-project-card__links">
-              {project.name === 'Hệ thống Quản lý Trường học' ? (
-                <Link to={project.demo}>
-                  Xem dự án <ExternalLink size={14} />
-                </Link>
-              ) : (
-                <a href={project.demo} target="_blank" rel="noreferrer">
-                  Live demo <ExternalLink size={14} />
-                </a>
-              )}
-            </div>
-          </article>
-        ))}
+    <section id="projects" className="py-12 sm:py-16">
+      <div className="mx-auto max-w-5xl px-4">
+        <div className="mb-5">
+          <h2 className="text-2xl font-bold text-slate-900 sm:text-3xl dark:text-slate-100">Projects</h2>
+          <p className="mt-2 text-base text-slate-500 dark:text-slate-400">3–6 project tiêu biểu chứng minh năng lực.</p>
+        </div>
+        <div className="grid gap-5 md:grid-cols-3">
+          {projects.map((project) => (
+            <article
+              key={project.name}
+              className="flex flex-col rounded-2xl border border-slate-200 bg-white/80 p-5 text-base shadow-sm dark:border-slate-700 dark:bg-slate-900/60"
+            >
+              <h3 className="mb-2 flex items-center gap-2 text-base font-semibold text-slate-900 dark:text-slate-100">
+                <FolderGit2 size={18} /> {project.name}
+              </h3>
+              <p className="mb-3 line-clamp-4 text-sm leading-6 text-slate-600 dark:text-slate-300">{project.description}</p>
+              <div className="mb-3 flex flex-wrap gap-1.5 text-sm">
+                {project.stack.map((tech) => (
+                  <span
+                    key={tech}
+                    className="rounded-full bg-slate-100 px-2.5 py-1 text-slate-700 dark:bg-slate-800 dark:text-slate-200"
+                  >
+                    {tech}
+                  </span>
+                ))}
+              </div>
+              <div className="mt-auto">
+                {project.name === 'Hệ thống Quản lý Trường học' ? (
+                  <Link
+                    to={project.demo}
+                    className="inline-flex items-center gap-1 text-sm font-semibold text-indigo-600 hover:text-indigo-500 dark:text-indigo-300 dark:hover:text-indigo-200"
+                  >
+                    Xem dự án <ExternalLink size={14} />
+                  </Link>
+                ) : (
+                  <span className="inline-flex items-center gap-1 text-sm font-medium text-slate-400">
+                    Live demo <ExternalLink size={14} />
+                  </span>
+                )}
+              </div>
+            </article>
+          ))}
+        </div>
       </div>
     </section>
   );

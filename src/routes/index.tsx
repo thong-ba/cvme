@@ -4,6 +4,10 @@ import App from '../App';
 import HomePage from '../pages/HomePage/index.tsx';
 import ProjectIntroductionPage from '../pages/SchoolProject/Introduction';
 import AdministratorsPage from '../pages/SchoolProject/Administrators';
+import PrimarySchoolsPage from '../pages/SchoolProject/Administrators/PrimarySchoolsPage';
+import LowerSecondarySchoolsPage from '../pages/SchoolProject/Administrators/LowerSecondarySchoolsPage';
+import HighSchoolsPage from '../pages/SchoolProject/Administrators/HighSchoolsPage';
+import CreateSchoolPage from '../pages/SchoolProject/Administrators/CreateSchoolPage';
 import HeadMastersPage from '../pages/SchoolProject/HeadMasters';
 import TeachersPage from '../pages/SchoolProject/Teachers';
 import ParentsPage from '../pages/SchoolProject/Parents';
@@ -26,6 +30,22 @@ export const router = createBrowserRouter([
       {
         path: 'school-project/administrators',
         element: <AdministratorsPage />,
+      },
+      {
+        path: 'school-project/administrators/tieu-hoc',
+        element: <PrimarySchoolsPage />,
+      },
+      {
+        path: 'school-project/administrators/thcs',
+        element: <LowerSecondarySchoolsPage />,
+      },
+      {
+        path: 'school-project/administrators/thpt',
+        element: <HighSchoolsPage />,
+      },
+      {
+        path: 'school-project/administrators/them-truong',
+        element: <CreateSchoolPage />,
       },
       {
         path: 'school-project/head-masters',

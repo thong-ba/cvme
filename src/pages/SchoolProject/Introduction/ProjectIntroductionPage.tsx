@@ -166,12 +166,24 @@ const ProjectIntroductionPage = () => {
         <section className="school-project-section">
           <h2>Tech Stack</h2>
           <div className="school-project-tech">
-            <span className="cv-tag">React</span>
-            <span className="cv-tag">TypeScript</span>
-            <span className="cv-tag">Tailwind CSS</span>
-            <span className="cv-tag">REST API</span>
-            <span className="cv-tag">Chart.js</span>
-            <span className="cv-tag">React Router</span>
+            <span className="inline-flex items-center rounded-full bg-slate-100 px-3 py-1 text-xs font-medium text-slate-700 dark:bg-slate-800 dark:text-slate-200">
+              React
+            </span>
+            <span className="inline-flex items-center rounded-full bg-slate-100 px-3 py-1 text-xs font-medium text-slate-700 dark:bg-slate-800 dark:text-slate-200">
+              TypeScript
+            </span>
+            <span className="inline-flex items-center rounded-full bg-slate-100 px-3 py-1 text-xs font-medium text-slate-700 dark:bg-slate-800 dark:text-slate-200">
+              Tailwind CSS
+            </span>
+            <span className="inline-flex items-center rounded-full bg-slate-100 px-3 py-1 text-xs font-medium text-slate-700 dark:bg-slate-800 dark:text-slate-200">
+              REST API
+            </span>
+            <span className="inline-flex items-center rounded-full bg-slate-100 px-3 py-1 text-xs font-medium text-slate-700 dark:bg-slate-800 dark:text-slate-200">
+              Chart.js
+            </span>
+            <span className="inline-flex items-center rounded-full bg-slate-100 px-3 py-1 text-xs font-medium text-slate-700 dark:bg-slate-800 dark:text-slate-200">
+              React Router
+            </span>
           </div>
         </section>
       </div>

@@ -1,5 +1,22 @@
 // Admin Navigation Component
-import { LayoutDashboard, School, Database, FileText, Settings, Users } from 'lucide-react';
+import {
+  LayoutDashboard,
+  School,
+  Database,
+  FileText,
+  Settings,
+  Users,
+  ShieldCheck,
+  Activity,
+  Cloud,
+  Plug,
+  FileSearch2,
+  ListTree,
+  PlusCircle,
+  ChevronDown,
+} from 'lucide-react';
+import { Link } from 'react-router-dom';
+import { useState } from 'react';
 
 interface AdminNavigationProps {
   activeTab: string;
@@ -12,6 +29,8 @@ const AdminNavigation = ({
   onTabChange,
   orientation = 'horizontal',
 }: AdminNavigationProps) => {
+  const [isSchoolOpen, setIsSchoolOpen] = useState(true);
+
   const tabs = [
     { id: 'dashboard', label: 'Dashboard', icon: LayoutDashboard },
     { id: 'schools', label: 'Quản lý Trường học', icon: School },
@@ -21,16 +40,99 @@ const AdminNavigation = ({
     { id: 'config', label: 'Cấu hình', icon: Settings },
   ];
 
+  const exploreItems = [
+    { label: 'Phân quyền & bảo mật', icon: ShieldCheck },
+    { label: 'Giám sát hoạt động', icon: Activity },
+    { label: 'Sao lưu & khôi phục', icon: Cloud },
+    { label: 'Tích hợp API / SSO', icon: Plug },
+    { label: 'Tài liệu & quy trình', icon: FileSearch2 },
+  ];
+
+  const schoolChildren = [
+    { label: 'Tiểu học', icon: ListTree, to: '/school-project/administrators/tieu-hoc' },
+    { label: 'THCS', icon: ListTree, to: '/school-project/administrators/thcs' },
+    { label: 'THPT', icon: ListTree, to: '/school-project/administrators/thpt' },
+    { label: 'Thêm trường', icon: PlusCircle, to: '/school-project/administrators/them-truong' },
+  ];
+
   return (
-    <nav className={`admin-navigation admin-navigation--${orientation}`}>
-      <div className="admin-navigation__tabs">
+    <nav
+      className={
+        orientation === 'vertical'
+          ? 'flex h-full flex-col gap-4 bg-white/95 shadow-lg rounded-2xl p-4'
+          : 'flex items-center justify-between gap-4 bg-white shadow-lg rounded-2xl p-2'
+      }
+    >
+      <div
+        className={
+          orientation === 'vertical'
+            ? 'flex flex-col gap-2'
+            : 'flex flex-row gap-2 overflow-x-auto scrollbar-hide flex-1'
+        }
+      >
         {tabs.map((tab) => {
           const Icon = tab.icon;
           const isActive = activeTab === tab.id;
+          const isSchool = tab.id === 'schools';
+
+          if (orientation === 'vertical' && isSchool) {
+            return (
+              <div key={tab.id} className="flex flex-col gap-2">
+                <button
+                  className={`flex items-center justify-between gap-2 rounded-xl px-4 py-2 text-sm font-medium transition
+                  ${
+                    isActive
+                      ? 'bg-blue-50 text-blue-700 shadow-sm ring-1 ring-blue-100'
+                      : 'text-slate-700 hover:bg-slate-50 hover:text-blue-700'
+                  }`}
+                  onClick={() => {
+                    onTabChange(tab.id);
+                    setIsSchoolOpen((prev) => !prev);
+                  }}
+                  aria-expanded={isSchoolOpen}
+                >
+                  <span className="inline-flex items-center gap-2">
+                    <Icon size={18} />
+                    <span>{tab.label}</span>
+                  </span>
+                  <ChevronDown
+                    size={16}
+                    className={`transition-transform text-slate-400 ${isSchoolOpen ? 'rotate-180' : ''}`}
+                  />
+                </button>
+
+                {isSchoolOpen && (
+                  <div className="ml-2 rounded-2xl border border-slate-100 bg-slate-50 p-2 shadow-sm">
+                    <div className="space-y-1">
+                      {schoolChildren.map((item) => {
+                        const ItemIcon = item.icon;
+                        return (
+                          <Link
+                            key={item.to}
+                            to={item.to}
+                            className="flex items-center gap-2 rounded-xl px-3 py-2 text-sm text-slate-700 transition hover:bg-white hover:shadow-sm"
+                          >
+                            <ItemIcon size={16} className="text-blue-500" />
+                            <span>{item.label}</span>
+                          </Link>
+                        );
+                      })}
+                    </div>
+                  </div>
+                )}
+              </div>
+            );
+          }
+
           return (
             <button
               key={tab.id}
-              className={`admin-navigation__tab ${isActive ? 'admin-navigation__tab--active' : ''}`}
+              className={`flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-medium whitespace-nowrap transition
+              ${
+                isActive
+                  ? 'bg-blue-50 text-blue-700 shadow-sm ring-1 ring-blue-100'
+                  : 'text-slate-600 hover:text-blue-700 hover:bg-slate-50'
+              }`}
               onClick={() => onTabChange(tab.id)}
             >
               <Icon size={18} />
@@ -39,6 +141,28 @@ const AdminNavigation = ({
           );
         })}
       </div>
+
+      {orientation === 'vertical' && (
+        <div className="border-t pt-3">
+          <p className="mb-2 px-1 text-xs font-semibold uppercase tracking-wide text-slate-400">
+            Tìm hiểu thêm
+          </p>
+          <div className="space-y-2">
+            {exploreItems.map((item) => {
+              const Icon = item.icon;
+              return (
+                <div
+                  key={item.label}
+                  className="flex items-center gap-2 rounded-xl px-3 py-2 text-sm text-slate-500 hover:bg-slate-50"
+                >
+                  <Icon size={16} className="text-slate-400" />
+                  <span>{item.label}</span>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+      )}
     </nav>
   );
 };

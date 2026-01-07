@@ -65,8 +65,8 @@ const AdministratorsPage = () => {
   };
 
   return (
-    <div className="school-project-page">
-      <div className="school-project-hero school-project-hero--admin">
+    <div className="school-project-page min-h-screen">
+      <div className="school-project-hero pb-8 md:pb-10">
         <div className="admin-hero-header">
           <Link to="/school-project" className="school-project-back">
             <ArrowLeft size={20} />
@@ -95,27 +95,25 @@ const AdministratorsPage = () => {
             )}
           </div>
         </div>
-        <div className="school-project-hero-content">
+        <div className="school-project-hero-content mt-5 md:mt-6">
           <div className="school-project-hero-icon">
             <Shield size={48} />
           </div>
-          <h1 className="school-project-title">Super Admin</h1>
-          <p className="school-project-subtitle">
+          <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold text-slate-900 mb-3">
+            Super Admin
+          </h1>
+          <p className="text-base md:text-lg  max-w-3xl mx-auto text-white"> 
             Quản lý toàn bộ hệ thống nhiều trường - Hệ thống / Sở / Phòng GD
           </p>
         </div>
       </div>
 
-      <div className="admin-page-container">
-        <div className="admin-layout">
-          <aside className="admin-layout__sidebar">
-            <AdminNavigation
-              activeTab={activeTab}
-              onTabChange={setActiveTab}
-              orientation="vertical"
-            />
+      <div className="admin-page-container w-full px-4 pb-12 md:px-6 lg:px-10">
+        <div className="flex flex-col md:flex-row items-start md:items-stretch gap-6">
+          <aside className="w-full md:w-64 shrink-0">
+            <AdminNavigation activeTab={activeTab} onTabChange={setActiveTab} orientation="vertical" />
           </aside>
-          <main className="admin-layout__content">
+          <main className="flex-1 w-full">
             <div className="admin-content">{renderContent()}</div>
           </main>
         </div>

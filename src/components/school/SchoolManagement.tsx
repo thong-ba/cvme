@@ -1,14 +1,28 @@
 // School Management Component
+import { useMemo, useState } from 'react';
+import { Pagination } from 'antd';
 import { School, Search, Plus, Filter, MoreVertical } from 'lucide-react';
+import { schoolList } from '../../data';
 
 const SchoolManagement = () => {
-  const schools = [
-    { id: 1, name: 'Trường Tiểu học Nguyễn Du', type: 'Tiểu học', level: 'Đạt chuẩn', students: 450, status: 'active' },
-    { id: 2, name: 'Trường THCS Lê Lợi', type: 'THCS', level: 'Đạt chuẩn', students: 680, status: 'active' },
-    { id: 3, name: 'Trường THPT Trần Hưng Đạo', type: 'THPT', level: 'Chưa đạt', students: 920, status: 'active' },
-    { id: 4, name: 'Trường Tiểu học Hoàng Diệu', type: 'Tiểu học', level: 'Đạt chuẩn', students: 380, status: 'active' },
-    { id: 5, name: 'Trường THCS Nguyễn Trãi', type: 'THCS', level: 'Đạt chuẩn', students: 750, status: 'active' },
-  ];
+  const [keyword, setKeyword] = useState('');
+  const [typeFilter, setTypeFilter] = useState<'all' | 'tiểu học' | 'thcs' | 'thpt'>('all');
+  const [levelFilter, setLevelFilter] = useState<'all' | 'Đạt chuẩn' | 'Chưa đạt'>('all');
+  const [page, setPage] = useState(1);
+  const pageSize = 6;
+
+  const filteredSchools = useMemo(() => {
+    return schoolList.filter((school) => {
+      const matchKeyword = school.name.toLowerCase().includes(keyword.toLowerCase());
+      const matchType = typeFilter === 'all' || school.type.toLowerCase() === typeFilter;
+      const matchLevel = levelFilter === 'all' || school.level === levelFilter;
+      return matchKeyword && matchType && matchLevel;
+    });
+  }, [keyword, typeFilter, levelFilter]);
+
+  const totalPages = Math.max(1, Math.ceil(filteredSchools.length / pageSize));
+  const currentPage = Math.min(page, totalPages);
+  const pagedSchools = filteredSchools.slice((currentPage - 1) * pageSize, currentPage * pageSize);
 
   return (
     <div className="admin-management">
@@ -20,7 +34,15 @@ const SchoolManagement = () => {
         <div className="admin-management__actions">
           <div className="admin-search">
             <Search size={18} />
-            <input type="text" placeholder="Tìm kiếm trường..." />
+            <input
+              type="text"
+              placeholder="Tìm kiếm trường..."
+              value={keyword}
+              onChange={(e) => {
+                setKeyword(e.target.value);
+                setPage(1);
+              }}
+            />
           </div>
           <button className="admin-button admin-button--primary">
             <Plus size={18} />
@@ -34,11 +56,31 @@ const SchoolManagement = () => {
           <Filter size={14} />
           Tất cả
         </button>
-        <button className="admin-filter-tag">Tiểu học</button>
-        <button className="admin-filter-tag">THCS</button>
-        <button className="admin-filter-tag">THPT</button>
-        <button className="admin-filter-tag">Đạt chuẩn</button>
-        <button className="admin-filter-tag">Chưa đạt</button>
+        <select
+          className="admin-filter-tag"
+          value={typeFilter}
+          onChange={(e) => {
+            setTypeFilter(e.target.value as typeof typeFilter);
+            setPage(1);
+          }}
+        >
+          <option value="all">Tất cả cấp</option>
+          <option value="tiểu học">Tiểu học</option>
+          <option value="thcs">THCS</option>
+          <option value="thpt">THPT</option>
+        </select>
+        <select
+          className="admin-filter-tag"
+          value={levelFilter}
+          onChange={(e) => {
+            setLevelFilter(e.target.value as typeof levelFilter);
+            setPage(1);
+          }}
+        >
+          <option value="all">Tất cả chuẩn</option>
+          <option value="Đạt chuẩn">Đạt chuẩn</option>
+          <option value="Chưa đạt">Chưa đạt</option>
+        </select>
       </div>
 
       <div className="admin-table-container">
@@ -55,9 +97,9 @@ const SchoolManagement = () => {
             </tr>
           </thead>
           <tbody>
-            {schools.map((school, index) => (
+            {pagedSchools.map((school, index) => (
               <tr key={school.id}>
-                <td>{index + 1}</td>
+                <td>{(currentPage - 1) * pageSize + index + 1}</td>
                 <td>
                   <div className="admin-table__school">
                     <School size={20} />
@@ -89,6 +131,21 @@ const SchoolManagement = () => {
             ))}
           </tbody>
         </table>
+      </div>
+
+      <div className="mt-4 flex flex-col items-center justify-between gap-3 text-sm text-slate-600 md:flex-row">
+        <span>
+          Hiển thị {(currentPage - 1) * pageSize + 1}-
+          {Math.min(currentPage * pageSize, filteredSchools.length)} / {filteredSchools.length} trường
+        </span>
+        <Pagination
+          current={currentPage}
+          total={filteredSchools.length}
+          pageSize={pageSize}
+          onChange={(p) => setPage(p)}
+          showSizeChanger={false}
+          className="!mb-0"
+        />
       </div>
     </div>
   );
