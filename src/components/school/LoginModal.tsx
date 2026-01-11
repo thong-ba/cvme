@@ -43,30 +43,40 @@ const LoginModal = ({ isOpen, onClose, onLogin }: LoginModalProps) => {
   };
 
   return (
-    <div className="login-modal-overlay" onClick={onClose}>
-      <div className="login-modal" onClick={(e) => e.stopPropagation()}>
-        <button className="login-modal__close" onClick={onClose}>
-          <X size={24} />
+    <div
+      className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm p-4"
+      onClick={onClose}
+    >
+      <div
+        className="relative w-full max-w-md rounded-2xl bg-white shadow-2xl p-6 sm:p-8"
+        onClick={(e) => e.stopPropagation()}
+      >
+        <button
+          className="absolute right-4 top-4 flex h-8 w-8 items-center justify-center rounded-full bg-slate-100 text-slate-600 transition hover:bg-slate-200"
+          onClick={onClose}
+          aria-label="Đóng"
+        >
+          <X size={20} />
         </button>
 
-        <div className="login-modal__header">
-          <div className="login-modal__icon">
+        <div className="mb-6 text-center">
+          <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-gradient-to-r from-blue-600 to-emerald-500 text-white shadow-lg">
             <LogIn size={32} />
           </div>
-          <h2>Đăng nhập</h2>
-          <p>Vui lòng đăng nhập để tiếp tục</p>
+          <h2 className="text-2xl font-bold text-slate-900 mb-2">Đăng nhập</h2>
+          <p className="text-sm text-slate-600">Vui lòng đăng nhập để tiếp tục</p>
         </div>
 
-        <form className="login-modal__form" onSubmit={handleSubmit}>
+        <form className="space-y-4" onSubmit={handleSubmit}>
           {error && (
-            <div className="login-modal__error">
+            <div className="rounded-lg bg-red-50 border border-red-200 p-3 text-sm text-red-700">
               <span>{error}</span>
             </div>
           )}
 
-          <div className="login-modal__field">
-            <label htmlFor="username">
-              <User size={18} />
+          <div className="space-y-2">
+            <label htmlFor="username" className="flex items-center gap-2 text-sm font-medium text-slate-700">
+              <User size={18} className="text-slate-500" />
               Tài khoản
             </label>
             <input
@@ -77,15 +87,16 @@ const LoginModal = ({ isOpen, onClose, onLogin }: LoginModalProps) => {
               onChange={(e) => setUsername(e.target.value)}
               disabled={isLoading}
               autoFocus
+              className="w-full rounded-lg border border-slate-300 px-4 py-2.5 text-sm text-slate-900 placeholder-slate-400 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-200 disabled:bg-slate-100 disabled:cursor-not-allowed"
             />
           </div>
 
-          <div className="login-modal__field">
-            <label htmlFor="password">
-              <Lock size={18} />
+          <div className="space-y-2">
+            <label htmlFor="password" className="flex items-center gap-2 text-sm font-medium text-slate-700">
+              <Lock size={18} className="text-slate-500" />
               Mật khẩu
             </label>
-            <div className="login-modal__password-wrapper">
+            <div className="relative">
               <input
                 id="password"
                 type={showPassword ? 'text' : 'password'}
@@ -93,10 +104,11 @@ const LoginModal = ({ isOpen, onClose, onLogin }: LoginModalProps) => {
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 disabled={isLoading}
+                className="w-full rounded-lg border border-slate-300 px-4 py-2.5 pr-12 text-sm text-slate-900 placeholder-slate-400 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-200 disabled:bg-slate-100 disabled:cursor-not-allowed"
               />
               <button
                 type="button"
-                className="login-modal__password-toggle"
+                className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-500 hover:text-slate-700 transition disabled:opacity-50 disabled:cursor-not-allowed"
                 onClick={() => setShowPassword(!showPassword)}
                 disabled={isLoading}
                 aria-label={showPassword ? 'Ẩn mật khẩu' : 'Hiện mật khẩu'}
@@ -106,20 +118,24 @@ const LoginModal = ({ isOpen, onClose, onLogin }: LoginModalProps) => {
             </div>
           </div>
 
-          <div className="login-modal__options">
-            <label className="login-modal__remember">
-              <input type="checkbox" />
+          <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 text-sm">
+            <label className="flex items-center gap-2 text-slate-600 cursor-pointer">
+              <input type="checkbox" className="rounded border-slate-300 text-blue-600 focus:ring-blue-200" />
               <span>Ghi nhớ đăng nhập</span>
             </label>
-            <a href="#" className="login-modal__forgot">
+            <a href="#" className="text-blue-600 hover:text-blue-700 font-medium">
               Quên mật khẩu?
             </a>
           </div>
 
-          <button type="submit" className="login-modal__submit" disabled={isLoading}>
+          <button
+            type="submit"
+            className="w-full rounded-lg bg-gradient-to-r from-blue-600 to-emerald-500 px-6 py-3 text-sm font-semibold text-white shadow-md transition hover:shadow-lg hover:-translate-y-0.5 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:translate-y-0 flex items-center justify-center gap-2"
+            disabled={isLoading}
+          >
             {isLoading ? (
               <>
-                <span className="login-modal__spinner"></span>
+                <span className="h-4 w-4 animate-spin rounded-full border-2 border-white border-t-transparent"></span>
                 Đang đăng nhập...
               </>
             ) : (
@@ -131,7 +147,7 @@ const LoginModal = ({ isOpen, onClose, onLogin }: LoginModalProps) => {
           </button>
         </form>
 
-        <div className="login-modal__footer">
+        <div className="mt-6 rounded-lg bg-blue-50 border border-blue-200 p-3 text-center text-xs text-blue-700">
           <p>
             Demo: Tài khoản: <strong>admin</strong> / Mật khẩu: <strong>admin123</strong>
           </p>

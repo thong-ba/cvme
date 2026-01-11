@@ -7,4 +7,5 @@ export { default as ContractManagement } from './ContractManagement';
 export { default as AccountManagement } from './AccountManagement';
 export { default as ConfigManagement } from './ConfigManagement';
 export { default as LoginModal } from './LoginModal';
+export { default as AddSchoolModal } from './AddSchoolModal';
 

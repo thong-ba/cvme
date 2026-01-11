@@ -15,21 +15,24 @@ import {
   PlusCircle,
   ChevronDown,
 } from 'lucide-react';
-import { Link } from 'react-router-dom';
 import { useState } from 'react';
 
 interface AdminNavigationProps {
   activeTab: string;
   onTabChange: (tab: string) => void;
   orientation?: 'horizontal' | 'vertical';
+  onSchoolTypeSelect?: (schoolType: 'tiểu học' | 'thcs' | 'thpt') => void;
+  onAddSchoolClick?: () => void;
 }
 
 const AdminNavigation = ({
   activeTab,
   onTabChange,
   orientation = 'horizontal',
+  onSchoolTypeSelect,
+  onAddSchoolClick,
 }: AdminNavigationProps) => {
-  const [isSchoolOpen, setIsSchoolOpen] = useState(true);
+  const [isSchoolOpen, setIsSchoolOpen] = useState(false);
 
   const tabs = [
     { id: 'dashboard', label: 'Dashboard', icon: LayoutDashboard },
@@ -49,11 +52,18 @@ const AdminNavigation = ({
   ];
 
   const schoolChildren = [
-    { label: 'Tiểu học', icon: ListTree, to: '/school-project/administrators/tieu-hoc' },
-    { label: 'THCS', icon: ListTree, to: '/school-project/administrators/thcs' },
-    { label: 'THPT', icon: ListTree, to: '/school-project/administrators/thpt' },
-    { label: 'Thêm trường', icon: PlusCircle, to: '/school-project/administrators/them-truong' },
+    { label: 'Tiểu học', icon: ListTree, type: 'tiểu học' as const },
+    { label: 'THCS', icon: ListTree, type: 'thcs' as const },
+    { label: 'THPT', icon: ListTree, type: 'thpt' as const },
+    { label: 'Thêm trường', icon: PlusCircle, type: null },
   ];
+
+  const handleSchoolTypeClick = (schoolType: 'tiểu học' | 'thcs' | 'thpt' | null) => {
+    if (schoolType && onSchoolTypeSelect) {
+      onSchoolTypeSelect(schoolType);
+      onTabChange('schools');
+    }
+  };
 
   return (
     <nav
@@ -104,18 +114,35 @@ const AdminNavigation = ({
                 {isSchoolOpen && (
                   <div className="ml-2 rounded-2xl border border-slate-100 bg-slate-50 p-2 shadow-sm">
                     <div className="space-y-1">
-                      {schoolChildren.map((item) => {
+                      {schoolChildren.map((item, index) => {
                         const ItemIcon = item.icon;
-                        return (
-                          <Link
-                            key={item.to}
-                            to={item.to}
-                            className="flex items-center gap-2 rounded-xl px-3 py-2 text-sm text-slate-700 transition hover:bg-white hover:shadow-sm"
-                          >
-                            <ItemIcon size={16} className="text-blue-500" />
-                            <span>{item.label}</span>
-                          </Link>
-                        );
+                        if (item.type) {
+                          return (
+                            <button
+                              key={`${item.type}-${index}`}
+                              onClick={() => handleSchoolTypeClick(item.type)}
+                              className="w-full flex items-center gap-2 rounded-xl px-3 py-2 text-sm text-slate-700 transition hover:bg-white hover:shadow-sm text-left"
+                            >
+                              <ItemIcon size={16} className="text-blue-500" />
+                              <span>{item.label}</span>
+                            </button>
+                          );
+                        } else {
+                          return (
+                            <button
+                              key={`add-school-${index}`}
+                              onClick={() => {
+                                if (onAddSchoolClick) {
+                                  onAddSchoolClick();
+                                }
+                              }}
+                              className="w-full flex items-center gap-2 rounded-xl px-3 py-2 text-sm text-slate-700 transition hover:bg-white hover:shadow-sm text-left"
+                            >
+                              <ItemIcon size={16} className="text-blue-500" />
+                              <span>{item.label}</span>
+                            </button>
+                          );
+                        }
                       })}
                     </div>
                   </div>

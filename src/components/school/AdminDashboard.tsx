@@ -177,7 +177,7 @@ const AdminDashboard = () => {
         <p className="mt-1 text-sm text-slate-500">
           Tăng trưởng số trường và học sinh theo từng tháng trong năm học hiện tại.
         </p>
-        <div className="mt-4 h-[320px]">
+        <div className="mt-4 h-[250px] sm:h-[280px] md:h-[320px]">
           <ResponsiveContainer width="100%" height="100%">
             <LineChart data={schoolTrendData}>
               <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" />
@@ -219,7 +219,7 @@ const AdminDashboard = () => {
           <p className="mt-1 text-sm text-slate-500">
             Tỷ lệ số trường theo từng cấp học giúp cân đối nguồn lực và chính sách.
           </p>
-          <div className="mt-4 h-[280px]">
+          <div className="mt-4 h-[220px] sm:h-[250px] md:h-[280px]">
             <ResponsiveContainer width="100%" height="100%">
               <PieChart>
                 <Pie
@@ -249,7 +249,7 @@ const AdminDashboard = () => {
           <p className="mt-1 text-sm text-slate-500">
             Tương quan quy mô học sinh và đội ngũ giáo viên theo từng cấp học.
           </p>
-          <div className="mt-4 h-[280px]">
+          <div className="mt-4 h-[220px] sm:h-[250px] md:h-[280px]">
             <ResponsiveContainer width="100%" height="100%">
               <BarChart data={studentByTypeData}>
                 <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" />
@@ -277,7 +277,7 @@ const AdminDashboard = () => {
         <p className="mt-1 text-sm text-slate-500">
           Tỷ lệ trường đạt chuẩn chất lượng giáo dục, theo dõi xu hướng cải thiện qua từng tháng.
         </p>
-        <div className="mt-4 h-[300px]">
+        <div className="mt-4 h-[240px] sm:h-[270px] md:h-[300px]">
           <ResponsiveContainer width="100%" height="100%">
             <AreaChart data={qualityTrendData}>
               <defs>
@@ -316,12 +316,12 @@ const AdminDashboard = () => {
         <p className="mt-1 text-sm text-slate-500">
           So sánh điểm đánh giá và quy mô học sinh cho các trường nổi bật trong hệ thống.
         </p>
-        <div className="mt-4 h-[320px]">
+        <div className="mt-4 h-[250px] sm:h-[280px] md:h-[320px]">
           <ResponsiveContainer width="100%" height="100%">
             <BarChart data={performanceData} layout="vertical">
               <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" />
               <XAxis type="number" stroke="#6b7280" />
-              <YAxis dataKey="school" type="category" stroke="#6b7280" width={120} />
+              <YAxis dataKey="school" type="category" stroke="#6b7280" width={80} className="text-xs" />
               <Tooltip
                 contentStyle={{
                   backgroundColor: 'white',
