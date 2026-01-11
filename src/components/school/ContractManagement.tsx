@@ -1,36 +1,8 @@
 // Contract Management Component
 import { FileText, Calendar, CheckCircle, XCircle, Plus } from 'lucide-react';
+import { contracts } from '../../data';
 
 const ContractManagement = () => {
-  const contracts = [
-    {
-      id: 1,
-      school: 'Trường THPT Trần Hưng Đạo',
-      type: 'Hợp tác giáo dục',
-      startDate: '01/01/2024',
-      endDate: '31/12/2024',
-      status: 'active',
-      value: '500,000,000 VNĐ',
-    },
-    {
-      id: 2,
-      school: 'Trường THCS Lê Lợi',
-      type: 'Hợp tác đào tạo',
-      startDate: '15/03/2024',
-      endDate: '14/03/2025',
-      status: 'active',
-      value: '300,000,000 VNĐ',
-    },
-    {
-      id: 3,
-      school: 'Trường Tiểu học Nguyễn Du',
-      type: 'Hợp tác giáo dục',
-      startDate: '01/09/2023',
-      endDate: '31/08/2024',
-      status: 'expired',
-      value: '250,000,000 VNĐ',
-    },
-  ];
 
   return (
     <div className="bg-white rounded-2xl p-6 md:p-8 shadow-lg">

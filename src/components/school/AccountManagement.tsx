@@ -1,36 +1,8 @@
 // Account Management Component
 import { Plus, Shield, Mail, Phone, Search } from 'lucide-react';
+import { accounts } from '../../data';
 
 const AccountManagement = () => {
-  const accounts = [
-    {
-      id: 1,
-      name: 'Nguyễn Văn A',
-      email: 'nguyenvana@school.edu.vn',
-      phone: '0901234567',
-      school: 'Trường THPT Trần Hưng Đạo',
-      role: 'Admin trường',
-      status: 'active',
-    },
-    {
-      id: 2,
-      name: 'Trần Thị B',
-      email: 'tranthib@school.edu.vn',
-      phone: '0902345678',
-      school: 'Trường THCS Lê Lợi',
-      role: 'Admin trường',
-      status: 'active',
-    },
-    {
-      id: 3,
-      name: 'Lê Văn C',
-      email: 'levanc@school.edu.vn',
-      phone: '0903456789',
-      school: 'Trường Tiểu học Nguyễn Du',
-      role: 'Admin trường',
-      status: 'inactive',
-    },
-  ];
 
   // Helper function to get status badge colors
   const getStatusBadgeClass = (status: string) => {
