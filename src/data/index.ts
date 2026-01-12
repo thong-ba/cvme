@@ -372,18 +372,24 @@ export const qualityTrendData = [
 ];
 
 export const performanceData = [
-  { school: 'THPT Phan Chu Trinh', score: 8.6, students: 980 },
-  { school: 'THCS Lê Lợi', score: 8.2, students: 680 },
-  { school: 'TH Tiểu học Nguyễn Du', score: 7.9, students: 450 },
-  { school: 'THPT Lương Thế Vinh', score: 8.3, students: 1120 },
-  { school: 'THCS Nguyễn Trãi', score: 8.0, students: 750 },
-  { school: 'THPT Nguyễn Thị Minh Khai', score: 8.1, students: 1015 },
-  { school: 'THCS Võ Thị Sáu', score: 7.8, students: 670 },
-  { school: 'THPT Nguyễn Du', score: 8.4, students: 1050 },
-  { school: 'THCS Nguyễn Huệ', score: 8.1, students: 720 },
-  { school: 'TH Tiểu học Lý Tự Trọng', score: 7.7, students: 480 },
-  { school: 'THPT Lê Hồng Phong', score: 8.5, students: 1080 },
-  { school: 'THCS Phạm Ngũ Lão', score: 8.0, students: 760 },
-  { school: 'TH Tiểu học Nguyễn Thị Minh Khai', score: 7.6, students: 440 },
-  { school: 'THPT Võ Thị Sáu', score: 8.2, students: 1035 },
+  { school: 'Phan Chu Trinh', score: 8.6, students: 980 },
+  { school: 'Lê Lợi', score: 8.2, students: 680 },
+  { school: 'Nguyễn Du', score: 7.9, students: 450 },
+  { school: 'Lương Thế Vinh', score: 8.3, students: 1120 },
+  { school: 'Nguyễn Trãi', score: 8.0, students: 750 },
+  { school: 'Nguyễn Thị Minh Khai', score: 8.1, students: 1015 },
+  { school: 'Võ Thị Sáu', score: 7.8, students: 670 },
+  { school: 'Nguyễn Du', score: 8.4, students: 1050 },
+  { school: 'Nguyễn Huệ', score: 8.1, students: 720 },
+  { school: 'Lý Tự Trọng', score: 7.7, students: 480 },
+  { school: 'Lê Hồng Phong', score: 8.5, students: 1080 },
+  { school: 'Phạm Ngũ Lão', score: 8.0, students: 760 },
+  { school: 'Nguyễn Thị Minh Khai', score: 7.6, students: 440 },
+  { school: 'Võ Thị Sáu', score: 8.2, students: 1035 },
+];
+
+export const overviewByLevelData = [
+  { level: 'Tiểu học', schools: 5, students: 3200, teachers: 180, standardRate: 92 },
+  { level: 'THCS', schools: 6, students: 4100, teachers: 250, standardRate: 88 },
+  { level: 'THPT', schools: 4, students: 2300, teachers: 210, standardRate: 95 },
 ];

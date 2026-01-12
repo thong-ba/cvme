@@ -25,8 +25,14 @@ const Header = () => {
   const [theme, setTheme] = useState<'light' | 'dark'>(getInitialTheme);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
+  // Apply theme on mount and when theme changes
   useEffect(() => {
-    document.documentElement.classList.toggle('dark', theme === 'dark');
+    const root = document.documentElement;
+    if (theme === 'dark') {
+      root.classList.add('dark');
+    } else {
+      root.classList.remove('dark');
+    }
   }, [theme]);
 
   useEffect(() => {
@@ -43,7 +49,6 @@ const Header = () => {
   const toggleTheme = () => {
     setTheme((prev) => {
       const next = prev === 'light' ? 'dark' : 'light';
-      document.documentElement.classList.toggle('dark', next === 'dark');
       window.localStorage.setItem('cv-theme', next);
       return next;
     });

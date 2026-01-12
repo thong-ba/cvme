@@ -16,9 +16,9 @@ import {
   Legend,
   ResponsiveContainer,
 } from 'recharts';
-import { Users, Award, Building2, Activity, TrendingUp, TrendingDown, Minus, Check } from 'lucide-react';
+import { Users, Award, Building2, Activity, TrendingUp, TrendingDown, Minus, Check, LayoutGrid, Table2, Wrench } from 'lucide-react';
 import type { LucideIcon } from 'lucide-react';
-import { useMemo } from 'react';
+import { useMemo, useState } from 'react';
 import {
   previousMonthData,
   schoolTrendData,
@@ -26,6 +26,7 @@ import {
   studentByTypeData,
   qualityTrendData,
   performanceData,
+  overviewByLevelData,
 } from '../../data';
 
 // KPI Card Component with Sparkline and Status
@@ -175,6 +176,7 @@ const KpiCard = ({
 };
 
 const AdminDashboard = () => {
+  const [overviewViewMode, setOverviewViewMode] = useState<'card' | 'table'>('table');
 
   // KPI Cards Data with sparkline and status
   const kpiCards = useMemo(
@@ -352,6 +354,144 @@ const AdminDashboard = () => {
         </section>
       </div>
 
+      {/* Overview by level section */}
+      <section className="rounded-2xl bg-white p-5 shadow-md ring-1 ring-slate-100">
+        <div className="mb-4 flex items-center justify-between">
+          <div className="flex items-center gap-2">
+            <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-blue-500 text-white">
+              <Building2 size={18} />
+            </div>
+            <div>
+              <h2 className="text-lg font-semibold text-slate-900">Overview theo cấp học</h2>
+              <p className="mt-0.5 flex items-center gap-1 text-xs text-slate-500">
+                <Wrench size={12} />
+                Gợi ý thêm nội dung
+              </p>
+            </div>
+          </div>
+          <div className="flex items-center gap-2 rounded-lg border border-slate-200 p-1">
+            <button
+              type="button"
+              onClick={() => setOverviewViewMode('card')}
+              className={`flex items-center gap-1.5 rounded-md px-3 py-1.5 text-xs font-medium transition ${
+                overviewViewMode === 'card'
+                  ? 'bg-indigo-600 text-white'
+                  : 'text-slate-600 hover:bg-slate-100'
+              }`}
+            >
+              <LayoutGrid size={14} />
+              Card view
+            </button>
+            <button
+              type="button"
+              onClick={() => setOverviewViewMode('table')}
+              className={`flex items-center gap-1.5 rounded-md px-3 py-1.5 text-xs font-medium transition ${
+                overviewViewMode === 'table'
+                  ? 'bg-indigo-600 text-white'
+                  : 'text-slate-600 hover:bg-slate-100'
+              }`}
+            >
+              <Table2 size={14} />
+              Table view
+            </button>
+          </div>
+        </div>
+
+        {overviewViewMode === 'table' ? (
+          <div className="overflow-x-auto">
+            <table className="w-full">
+              <thead>
+                <tr className="border-b border-slate-200 bg-slate-50">
+                  <th className="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wider text-slate-700">
+                    Cấp
+                  </th>
+                  <th className="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wider text-slate-700">
+                    Trường
+                  </th>
+                  <th className="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wider text-slate-700">
+                    HS
+                  </th>
+                  <th className="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wider text-slate-700">
+                    GV
+                  </th>
+                  <th className="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wider text-slate-700">
+                    <div className="flex items-center gap-1">
+                      Tỉ lệ đạt chuẩn
+                      <Activity size={12} className="text-slate-400" />
+                    </div>
+                  </th>
+                </tr>
+              </thead>
+              <tbody className="divide-y divide-slate-200">
+                {overviewByLevelData.map((item, index) => (
+                  <tr key={index} className="hover:bg-slate-50">
+                    <td className="px-4 py-3 text-sm font-medium text-slate-900">{item.level}</td>
+                    <td className="px-4 py-3 text-sm text-slate-600">{item.schools}</td>
+                    <td className="px-4 py-3 text-sm text-slate-600">
+                      {item.students.toLocaleString('vi-VN')}
+                    </td>
+                    <td className="px-4 py-3 text-sm text-slate-600">{item.teachers}</td>
+                    <td className="px-4 py-3 text-sm">
+                      <span
+                        className={`inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-semibold ${
+                          item.standardRate >= 90
+                            ? 'bg-emerald-100 text-emerald-800'
+                            : item.standardRate >= 85
+                              ? 'bg-amber-100 text-amber-800'
+                              : 'bg-red-100 text-red-800'
+                        }`}
+                      >
+                        {item.standardRate}%
+                      </span>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        ) : (
+          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+            {overviewByLevelData.map((item, index) => (
+              <div
+                key={index}
+                className="rounded-xl border border-slate-200 bg-gradient-to-br from-white to-slate-50 p-4 shadow-sm transition hover:shadow-md"
+              >
+                <div className="mb-3 flex items-center justify-between">
+                  <h3 className="text-base font-semibold text-slate-900">{item.level}</h3>
+                  <span
+                    className={`inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-semibold ${
+                      item.standardRate >= 90
+                        ? 'bg-emerald-100 text-emerald-800'
+                        : item.standardRate >= 85
+                          ? 'bg-amber-100 text-amber-800'
+                          : 'bg-red-100 text-red-800'
+                    }`}
+                  >
+                    {item.standardRate}%
+                  </span>
+                </div>
+                <div className="space-y-2">
+                  <div className="flex items-center justify-between text-sm">
+                    <span className="text-slate-600">Trường:</span>
+                    <span className="font-semibold text-slate-900">{item.schools}</span>
+                  </div>
+                  <div className="flex items-center justify-between text-sm">
+                    <span className="text-slate-600">Học sinh:</span>
+                    <span className="font-semibold text-slate-900">
+                      {item.students.toLocaleString('vi-VN')}
+                    </span>
+                  </div>
+                  <div className="flex items-center justify-between text-sm">
+                    <span className="text-slate-600">Giáo viên:</span>
+                    <span className="font-semibold text-slate-900">{item.teachers}</span>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        )}
+      </section>
+
       {/* Quality area chart */}
       <section className="rounded-2xl bg-white p-5 shadow-md ring-1 ring-slate-100">
         <h2 className="text-lg font-semibold text-slate-900">Tỷ lệ chất lượng theo thời gian</h2>
@@ -402,7 +542,7 @@ const AdminDashboard = () => {
             <BarChart data={performanceData} layout="vertical">
               <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" />
               <XAxis type="number" stroke="#6b7280" />
-              <YAxis dataKey="school" type="category" stroke="#6b7280" width={80} className="text-xs" />
+              <YAxis dataKey="school" type="category" stroke="#6b7280" width={120} className="text-xs" />
               <Tooltip
                 contentStyle={{
                   backgroundColor: 'white',
