@@ -1,69 +1,101 @@
 // Head Masters Page
-import { ArrowLeft, Award, Users } from 'lucide-react';
+import { useState } from 'react';
+import { ArrowLeft, Menu, X } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import {
+  HeadMastersDashboard,
+  HeadMastersNavigation,
+  SchoolManagementForHeadMasters,
+  TeacherManagement,
+  StudentManagement,
+  ClassManagement,
+  ScheduleManagement,
+} from '../../../components/school';
 
 const HeadMastersPage = () => {
+  const [activeTab, setActiveTab] = useState('dashboard');
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+
+  const renderContent = () => {
+    switch (activeTab) {
+      case 'dashboard':
+        return <HeadMastersDashboard />;
+      case 'schools':
+        return <SchoolManagementForHeadMasters />;
+      case 'teachers':
+        return <TeacherManagement />;
+      case 'students':
+        return <StudentManagement />;
+      case 'classes':
+        return <ClassManagement />;
+      case 'schedule':
+        return <ScheduleManagement />;
+      case 'achievements':
+        return (
+          <div className="rounded-2xl bg-white p-8 shadow-md ring-1 ring-slate-100 text-center">
+            <p className="text-slate-600">Tính năng Thành tích đang được phát triển...</p>
+          </div>
+        );
+      case 'reports':
+        return (
+          <div className="rounded-2xl bg-white p-8 shadow-md ring-1 ring-slate-100 text-center">
+            <p className="text-slate-600">Tính năng Báo cáo đang được phát triển...</p>
+          </div>
+        );
+      default:
+        return <HeadMastersDashboard />;
+    }
+  };
+
   return (
-    <div className="school-project-page">
-      <div className="school-project-header">
-        <Link to="/school-project" className="school-project-back">
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-sky-50 to-emerald-50">
+      <div className="w-full px-3 sm:px-4 md:px-6 lg:px-8 xl:px-12 py-4 sm:py-6">
+        <Link
+          to="/school-project"
+          className="inline-flex items-center gap-2 text-slate-700 hover:text-indigo-600 mb-4 sm:mb-6 transition-colors"
+        >
           <ArrowLeft size={20} />
-          Về giới thiệu dự án
+          <span className="text-sm sm:text-base">Về giới thiệu dự án</span>
         </Link>
-        <h1 className="school-project-title">
-          <Award size={32} />
-          Hiệu trưởng (Head Masters)
-        </h1>
-        <p className="school-project-subtitle">Xem và theo dõi thành tích giáo viên và học sinh</p>
-      </div>
-
-      <div className="school-project-content">
-        <section className="school-project-section">
-          <h2>Thống kê tổng quan</h2>
-          <div className="school-project-dashboard">
-            <div className="school-project-stat-card">
-              <div className="school-project-stat-icon">
-                <Users size={24} />
-              </div>
-              <div className="school-project-stat-info">
-                <h3>Tổng số giáo viên</h3>
-                <p className="school-project-stat-value">45</p>
-              </div>
+        <div className="mb-4 sm:mb-6">
+          <div className="flex items-center justify-between">
+            <div>
+              <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-slate-900 mb-2">Hiệu trưởng (Head Masters)</h1>
+              <p className="text-sm sm:text-base text-slate-600">Xem và theo dõi thành tích giáo viên và học sinh</p>
             </div>
-            <div className="school-project-stat-card">
-              <div className="school-project-stat-icon">
-                <Users size={24} />
-              </div>
-              <div className="school-project-stat-info">
-                <h3>Tổng số học sinh</h3>
-                <p className="school-project-stat-value">1,250</p>
-              </div>
-            </div>
-            <div className="school-project-stat-card">
-              <div className="school-project-stat-icon">
-                <Award size={24} />
-              </div>
-              <div className="school-project-stat-info">
-                <h3>Thành tích xuất sắc</h3>
-                <p className="school-project-stat-value">320</p>
-              </div>
-            </div>
+            {/* Mobile Menu Button */}
+            <button
+              onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+              className="lg:hidden p-2 rounded-lg bg-white shadow-md hover:bg-slate-50 transition-colors"
+              aria-label="Toggle menu"
+            >
+              {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
+            </button>
           </div>
-        </section>
-
-        <section className="school-project-section">
-          <h2>Thành tích giáo viên</h2>
-          <div className="school-project-placeholder">
-            <p>Bảng thành tích giáo viên sẽ được hiển thị ở đây</p>
-          </div>
-        </section>
-
-        <section className="school-project-section">
-          <h2>Thành tích học sinh</h2>
-          <div className="school-project-placeholder">
-            <p>Bảng thành tích học sinh sẽ được hiển thị ở đây</p>
-          </div>
-        </section>
+        </div>
+        <div className="flex flex-col lg:flex-row gap-4 sm:gap-6">
+          {/* Left Navigation - Desktop */}
+          <aside className="hidden lg:block w-64 xl:w-72 flex-shrink-0">
+            <HeadMastersNavigation activeTab={activeTab} onTabChange={setActiveTab} orientation="vertical" />
+          </aside>
+          {/* Mobile Navigation */}
+          {isMobileMenuOpen && (
+            <aside className="lg:hidden mb-4">
+              <HeadMastersNavigation
+                activeTab={activeTab}
+                onTabChange={(tab) => {
+                  setActiveTab(tab);
+                  setIsMobileMenuOpen(false);
+                }}
+                orientation="vertical"
+              />
+            </aside>
+          )}
+          {/* Main Content */}
+          <main className="flex-1 min-w-0 w-full">
+            {renderContent()}
+          </main>
+        </div>
       </div>
     </div>
   );

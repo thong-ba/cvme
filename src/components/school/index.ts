@@ -8,4 +8,18 @@ export { default as AccountManagement } from './AccountManagement';
 export { default as ConfigManagement } from './ConfigManagement';
 export { default as LoginModal } from './LoginModal';
 export { default as AddSchoolModal } from './AddSchoolModal';
+export { default as HeadMastersDashboard } from './HeadMastersDashboard';
+export { default as HeadMastersNavigation } from './HeadMastersNavigation';
+export { default as SchoolManagementForHeadMasters } from './SchoolManagementForHeadMasters';
+export { default as TeacherManagement } from './TeacherManagement';
+export { default as StudentManagement } from './StudentManagement';
+export { default as ClassManagement } from './ClassManagement';
+export { default as ScheduleManagement } from './ScheduleManagement';
+export { default as TeacherDetailModal } from './TeacherDetailModal';
+export { default as StudentDetailModal } from './StudentDetailModal';
+export { default as Pagination } from './Pagination';
+export { default as TeachersDashboard } from './TeachersDashboard';
+export { default as ParentsDashboard } from './ParentsDashboard';
+export { default as StudentsDashboard } from './StudentsDashboard';
+export { default as StaffAdminsDashboard } from './StaffAdminsDashboard';
 
