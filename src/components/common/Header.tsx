@@ -56,9 +56,9 @@ const Header = () => {
 
   const navItems = [
     { href: '#about', icon: User, label: 'About' },
-    { href: '#skills', icon: Code2, label: 'Skills' },
     { href: '#experience', icon: Briefcase, label: 'Experience' },
     { href: '#projects', icon: FolderGit2, label: 'Projects' },
+    { href: '#skills', icon: Code2, label: 'Skills' },
     { href: '#contact', icon: Mail, label: 'Contact' },
   ];
 

@@ -9,9 +9,9 @@ function HomePage() {
       <main className="mx-auto max-w-5xl px-4 pb-10 pt-6">
         <Hero />
         <About />
-        <Skills />
         <Experience />
         <Projects />
+        <Skills />
         <Contact />
       </main>
       <Footer />
