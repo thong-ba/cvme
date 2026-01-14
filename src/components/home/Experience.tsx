@@ -34,7 +34,7 @@ const Experience = () => {
       <div className="mx-auto max-w-3xl px-4">
         <div className="mb-5">
           <h2 className="text-2xl font-bold text-slate-900 sm:text-3xl dark:text-slate-100">Experience</h2>
-          <p className="mt-2 text-base text-slate-500 dark:text-slate-400">
+          <p className="mt-2 text-base text-slate-500 dark:text-slate-400 hidden">
             Kinh nghiệm thực tế liên quan trực tiếp tới vị trí bạn apply.
           </p>
         </div>

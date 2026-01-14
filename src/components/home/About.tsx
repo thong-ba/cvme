@@ -11,12 +11,10 @@ const About = () => {
         </div>
         <div className="space-y-4 text-base leading-7 text-slate-700 sm:text-lg sm:leading-8 dark:text-slate-300">
           <p>
-            Frontend developer tập trung vào React, TypeScript và UI hiện đại. Thoải mái làm việc với design system,
-            component-based architecture và performance optimization.
+            Tôi là sinh viên tốt nghiệp Đại học FPT, chuyên ngành Frontend Development, với nền tảng vững chắc về React và phát triển giao diện web hiện đại. Tôi có kinh nghiệm xây dựng các sản phẩm frontend theo hướng rõ ràng, dễ mở rộng, tối ưu trải nghiệm người dùng và tuân thủ best practices trong phát triển giao diện.
           </p>
           <p>
-            Mục tiêu: trở thành key member trong team frontend, tham gia định hình kiến trúc UI và trải nghiệm người
-            dùng cho các sản phẩm web scale lớn.
+            Bên cạnh kỹ năng kỹ thuật, tôi chú trọng tư duy hệ thống, khả năng làm việc nhóm và chủ động học hỏi công nghệ mới để nâng cao chất lượng sản phẩm. Tôi mong muốn gia nhập một môi trường làm việc chuyên nghiệp, nơi tôi có thể tiếp tục trau dồi kỹ năng, đóng góp giá trị thực tế cho dự án và gắn bó lâu dài cùng sự phát triển của công ty.
           </p>
         </div>
       </div>

@@ -32,7 +32,7 @@ const Projects = () => {
       <div className="mx-auto max-w-5xl px-4">
         <div className="mb-5">
           <h2 className="text-2xl font-bold text-slate-900 sm:text-3xl dark:text-slate-100">Projects</h2>
-          <p className="mt-2 text-base text-slate-500 dark:text-slate-400">3–6 project tiêu biểu chứng minh năng lực.</p>
+          <p className="mt-2 text-base text-slate-500 dark:text-slate-400 hidden">3–6 project tiêu biểu chứng minh năng lực.</p>
         </div>
         <div className="grid gap-5 md:grid-cols-3">
           {projects.map((project) => (

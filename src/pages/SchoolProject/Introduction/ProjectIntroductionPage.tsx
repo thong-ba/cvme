@@ -39,16 +39,16 @@ const ProjectIntroductionPage = () => {
 
           {/* Feature Badges */}
           <div className="flex flex-wrap justify-center gap-3 mt-8">
-            <span className="inline-flex items-center gap-2 px-4 py-2 bg-white/20 backdrop-blur-md rounded-full text-white text-sm font-medium border border-white/30 transition-all duration-300 hover:bg-white/30 hover:-translate-y-0.5">
-              <GraduationCap size={14} />
+            <span className="inline-flex items-center gap-2 px-4 py-2 bg-white/90 backdrop-blur-md rounded-full text-slate-800 text-sm font-medium border border-white/50 shadow-lg transition-all duration-300 hover:bg-white hover:-translate-y-0.5 hover:shadow-xl">
+              <GraduationCap size={14} className="text-blue-600" />
               Quản lý học sinh
             </span>
-            <span className="inline-flex items-center gap-2 px-4 py-2 bg-white/20 backdrop-blur-md rounded-full text-white text-sm font-medium border border-white/30 transition-all duration-300 hover:bg-white/30 hover:-translate-y-0.5">
-              <BookOpen size={14} />
+            <span className="inline-flex items-center gap-2 px-4 py-2 bg-white/90 backdrop-blur-md rounded-full text-slate-800 text-sm font-medium border border-white/50 shadow-lg transition-all duration-300 hover:bg-white hover:-translate-y-0.5 hover:shadow-xl">
+              <BookOpen size={14} className="text-blue-600" />
               Quản lý lớp học
             </span>
-            <span className="inline-flex items-center gap-2 px-4 py-2 bg-white/20 backdrop-blur-md rounded-full text-white text-sm font-medium border border-white/30 transition-all duration-300 hover:bg-white/30 hover:-translate-y-0.5">
-              <Award size={14} />
+            <span className="inline-flex items-center gap-2 px-4 py-2 bg-white/90 backdrop-blur-md rounded-full text-slate-800 text-sm font-medium border border-white/50 shadow-lg transition-all duration-300 hover:bg-white hover:-translate-y-0.5 hover:shadow-xl">
+              <Award size={14} className="text-blue-600" />
               Theo dõi thành tích
             </span>
           </div>
