@@ -10,6 +10,8 @@ import {
   StudentManagement,
   ClassManagement,
   ScheduleManagement,
+  AchievementsManagement,
+  ReportsManagement,
 } from '../../../components/school';
 
 const HeadMastersPage = () => {
@@ -31,17 +33,9 @@ const HeadMastersPage = () => {
       case 'schedule':
         return <ScheduleManagement />;
       case 'achievements':
-        return (
-          <div className="rounded-2xl bg-white p-8 shadow-md ring-1 ring-slate-100 text-center">
-            <p className="text-slate-600">Tính năng Thành tích đang được phát triển...</p>
-          </div>
-        );
+        return <AchievementsManagement />;
       case 'reports':
-        return (
-          <div className="rounded-2xl bg-white p-8 shadow-md ring-1 ring-slate-100 text-center">
-            <p className="text-slate-600">Tính năng Báo cáo đang được phát triển...</p>
-          </div>
-        );
+        return <ReportsManagement />;
       default:
         return <HeadMastersDashboard />;
     }

@@ -1,9 +1,10 @@
 // Teacher Management Component
 import { useState, useMemo, useEffect } from 'react';
-import { Users, Search, Mail, Phone, Eye, Edit } from 'lucide-react';
+import { Users, Search, Mail, Phone, Eye, Edit, Plus, Trash2 } from 'lucide-react';
 import { Pagination } from 'antd';
 import { headMasterSchoolTeachers } from '../../data';
 import TeacherDetailModal from './TeacherDetailModal';
+import AddEditTeacherModal from './AddEditTeacherModal';
 
 type SortOption = 'default' | 'name-asc' | 'name-desc' | 'subject-asc' | 'subject-desc' | 'students-asc' | 'students-desc' | 'score-asc' | 'score-desc';
 
@@ -13,13 +14,52 @@ const TeacherManagement = () => {
   const [yearFilter, setYearFilter] = useState<string>('all');
   const [sortOption, setSortOption] = useState<SortOption>('default');
   const [selectedTeacher, setSelectedTeacher] = useState<typeof headMasterSchoolTeachers[0] | null>(null);
+  const [editingTeacher, setEditingTeacher] = useState<typeof headMasterSchoolTeachers[0] | null>(null);
+  const [isAddModalOpen, setIsAddModalOpen] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 10;
 
-  const teachersData = headMasterSchoolTeachers;
+  const [teachersData, setTeachersData] = useState(headMasterSchoolTeachers);
 
   // Get unique subjects from teachers data
   const subjects = Array.from(new Set(teachersData.map((t) => t.subject))).sort();
+
+  // Get available classes from headMasterSchoolClasses
+  const availableClasses = ['10A1', '10A2', '11A1', '11A2', '12A1'];
+
+  // Generate avatar URL helper
+  const getAvatarUrl = (name: string, avatar?: string) => {
+    if (avatar) return avatar;
+    return `https://ui-avatars.com/api/?name=${encodeURIComponent(name)}&size=200&background=6366f1&color=fff&bold=true`;
+  };
+
+  const handleAddTeacher = (teacherData: Omit<typeof teachersData[0], 'id'> | typeof teachersData[0]) => {
+    if ('id' in teacherData) return; // Should not happen for add
+    const maxId = Math.max(...teachersData.map((t) => t.id), 0);
+    const newTeacher: typeof teachersData[0] = {
+      ...teacherData,
+      id: maxId + 1,
+      avatar: getAvatarUrl(teacherData.name, teacherData.avatar),
+    } as typeof teachersData[0];
+    setTeachersData([...teachersData, newTeacher]);
+  };
+
+  const handleEditTeacher = (teacherData: typeof teachersData[0] | Omit<typeof teachersData[0], 'id'>) => {
+    if ('id' in teacherData) {
+      const updatedTeacher: typeof teachersData[0] = {
+        ...teacherData,
+        avatar: getAvatarUrl(teacherData.name, teacherData.avatar),
+      } as typeof teachersData[0];
+      setTeachersData(teachersData.map((t) => (t.id === updatedTeacher.id ? updatedTeacher : t)));
+      setEditingTeacher(null);
+    }
+  };
+
+  const handleDeleteTeacher = (id: number) => {
+    if (window.confirm('Bạn có chắc chắn muốn xóa giáo viên này?')) {
+      setTeachersData(teachersData.filter((t) => t.id !== id));
+    }
+  };
 
   // Get unique years from homeroom history
   const years = useMemo(() => {
@@ -153,6 +193,13 @@ const TeacherManagement = () => {
         <section className="rounded-xl sm:rounded-2xl bg-white p-4 sm:p-5 lg:p-6 shadow-md ring-1 ring-slate-100">
           <div className="flex flex-col gap-3">
             <div className="flex flex-col sm:flex-row flex-wrap gap-3 items-stretch sm:items-center">
+              <button
+                onClick={() => setIsAddModalOpen(true)}
+                className="inline-flex items-center justify-center gap-2 px-4 py-2 bg-indigo-600 text-white rounded-lg font-medium hover:bg-indigo-700 transition-colors text-sm sm:text-base"
+              >
+                <Plus size={16} />
+                <span>Thêm giáo viên</span>
+              </button>
               <div className="relative flex-1 w-full sm:min-w-[250px]">
                 <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-slate-400" size={18} />
                 <input
@@ -232,6 +279,9 @@ const TeacherManagement = () => {
                   <thead className="bg-slate-50">
                     <tr>
                       <th className="px-3 sm:px-4 py-2 sm:py-3 text-left text-xs font-semibold uppercase tracking-wider text-slate-700 whitespace-nowrap">
+                        Ảnh
+                      </th>
+                      <th className="px-3 sm:px-4 py-2 sm:py-3 text-left text-xs font-semibold uppercase tracking-wider text-slate-700 whitespace-nowrap">
                         Giáo viên
                       </th>
                       <th className="px-3 sm:px-4 py-2 sm:py-3 text-left text-xs font-semibold uppercase tracking-wider text-slate-700 whitespace-nowrap">
@@ -257,6 +307,17 @@ const TeacherManagement = () => {
                   <tbody className="bg-white divide-y divide-slate-200">
                     {paginatedTeachers.map((teacher) => (
                       <tr key={teacher.id} className="hover:bg-slate-50 transition-colors">
+                        <td className="px-3 sm:px-4 py-2 sm:py-3 whitespace-nowrap">
+                          <img
+                            src={getAvatarUrl(teacher.name, teacher.avatar)}
+                            alt={teacher.name}
+                            className="w-10 h-10 rounded-full object-cover border-2 border-indigo-100"
+                            onError={(e) => {
+                              const target = e.target as HTMLImageElement;
+                              target.src = getAvatarUrl(teacher.name);
+                            }}
+                          />
+                        </td>
                         <td className="px-3 sm:px-4 py-2 sm:py-3 text-sm font-medium text-slate-900 whitespace-nowrap">{teacher.name}</td>
                         <td className="px-3 sm:px-4 py-2 sm:py-3 text-sm whitespace-nowrap">
                           <span className="inline-flex items-center rounded-full bg-indigo-100 px-2 sm:px-2.5 py-0.5 text-xs font-semibold text-indigo-800">
@@ -302,8 +363,19 @@ const TeacherManagement = () => {
                             >
                               <Eye size={14} className="sm:w-4 sm:h-4" />
                             </button>
-                            <button className="p-1 sm:p-1.5 text-slate-600 hover:bg-slate-100 rounded transition-colors" aria-label="Chỉnh sửa">
+                            <button
+                              onClick={() => setEditingTeacher(teacher)}
+                              className="p-1 sm:p-1.5 text-slate-600 hover:bg-slate-100 rounded transition-colors"
+                              aria-label="Chỉnh sửa"
+                            >
                               <Edit size={14} className="sm:w-4 sm:h-4" />
+                            </button>
+                            <button
+                              onClick={() => handleDeleteTeacher(teacher.id)}
+                              className="p-1 sm:p-1.5 text-red-600 hover:bg-red-50 rounded transition-colors"
+                              aria-label="Xóa"
+                            >
+                              <Trash2 size={14} className="sm:w-4 sm:h-4" />
                             </button>
                           </div>
                         </td>
@@ -332,6 +404,25 @@ const TeacherManagement = () => {
       {selectedTeacher && (
         <TeacherDetailModal teacher={selectedTeacher} onClose={() => setSelectedTeacher(null)} />
       )}
+
+      {/* Add/Edit Teacher Modal */}
+      <AddEditTeacherModal
+        isOpen={isAddModalOpen || !!editingTeacher}
+        onClose={() => {
+          setIsAddModalOpen(false);
+          setEditingTeacher(null);
+        }}
+        onSave={(teacherData) => {
+          if (editingTeacher && 'id' in teacherData) {
+            handleEditTeacher(teacherData as typeof teachersData[0]);
+          } else if (!editingTeacher && !('id' in teacherData)) {
+            handleAddTeacher(teacherData as Omit<typeof teachersData[0], 'id'>);
+          }
+        }}
+        teacher={editingTeacher}
+        availableClasses={availableClasses}
+        subjects={subjects}
+      />
     </>
   );
 };

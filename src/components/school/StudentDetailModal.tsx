@@ -37,6 +37,7 @@ interface Student {
   email: string;
   phone: string;
   address?: string;
+  avatar?: string;
   dateOfBirth?: string;
   joinDate?: string;
   avgScore: number;
@@ -116,9 +117,21 @@ const StudentDetailModal = ({ student, onClose }: StudentDetailModalProps) => {
             {/* Basic Information */}
             <section className="bg-gradient-to-br from-blue-50 to-indigo-50 rounded-xl p-6">
               <div className="flex items-start gap-4">
-                <div className="rounded-full bg-gradient-to-br from-blue-500 to-indigo-600 p-4">
-                  <GraduationCap size={32} className="text-white" />
-                </div>
+                {student.avatar ? (
+                  <img
+                    src={student.avatar}
+                    alt={student.name}
+                    className="w-20 h-20 rounded-full object-cover border-4 border-white shadow-lg"
+                    onError={(e) => {
+                      const target = e.target as HTMLImageElement;
+                      target.src = `https://ui-avatars.com/api/?name=${encodeURIComponent(student.name)}&size=200&background=10b981&color=fff&bold=true`;
+                    }}
+                  />
+                ) : (
+                  <div className="rounded-full bg-gradient-to-br from-blue-500 to-indigo-600 p-4">
+                    <GraduationCap size={32} className="text-white" />
+                  </div>
+                )}
                 <div className="flex-1">
                   <h3 className="text-2xl font-bold text-slate-900 mb-2">{student.name}</h3>
                   <div className="flex flex-wrap items-center gap-2 mb-3">

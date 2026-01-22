@@ -15,6 +15,7 @@ interface Teacher {
   email: string;
   phone: string;
   address?: string;
+  avatar?: string;
   classes: string[];
   students: number;
   avgScore: number;
@@ -62,9 +63,21 @@ const TeacherDetailModal = ({ teacher, onClose }: TeacherDetailModalProps) => {
             {/* Basic Information */}
             <section className="bg-gradient-to-br from-indigo-50 to-purple-50 rounded-xl p-6">
               <div className="flex items-start gap-4">
-                <div className="rounded-full bg-gradient-to-br from-indigo-500 to-purple-600 p-4">
-                  <Users size={32} className="text-white" />
-                </div>
+                {teacher.avatar ? (
+                  <img
+                    src={teacher.avatar}
+                    alt={teacher.name}
+                    className="w-20 h-20 rounded-full object-cover border-4 border-white shadow-lg"
+                    onError={(e) => {
+                      const target = e.target as HTMLImageElement;
+                      target.src = `https://ui-avatars.com/api/?name=${encodeURIComponent(teacher.name)}&size=200&background=6366f1&color=fff&bold=true`;
+                    }}
+                  />
+                ) : (
+                  <div className="rounded-full bg-gradient-to-br from-indigo-500 to-purple-600 p-4">
+                    <Users size={32} className="text-white" />
+                  </div>
+                )}
                 <div className="flex-1">
                   <h3 className="text-2xl font-bold text-slate-900 mb-2">{teacher.name}</h3>
                   <div className="flex flex-wrap items-center gap-2 mb-3">
