@@ -2,6 +2,8 @@
 import { createBrowserRouter } from 'react-router-dom';
 import App from '../App';
 import HomePage from '../pages/HomePage/index.tsx';
+import NotFoundPage from '../pages/NotFoundPage';
+import RouteErrorPage from '../pages/RouteErrorPage';
 import ProjectIntroductionPage from '../pages/SchoolProject/Introduction';
 import AdministratorsPage from '../pages/SchoolProject/Administrators';
 import PrimarySchoolsPage from '../pages/SchoolProject/Administrators/PrimarySchoolsPage';
@@ -18,6 +20,7 @@ export const router = createBrowserRouter([
   {
     path: '/',
     element: <App />,
+    errorElement: <RouteErrorPage />,
     children: [
       {
         index: true,
@@ -66,6 +69,10 @@ export const router = createBrowserRouter([
       {
         path: 'school-project/staff-admins',
         element: <StaffAdminsPage />,
+      },
+      {
+        path: '*',
+        element: <NotFoundPage />,
       },
     ],
   },

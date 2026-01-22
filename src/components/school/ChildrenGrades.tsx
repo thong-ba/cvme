@@ -1,6 +1,7 @@
-// Parents Dashboard Component
-import { useMemo } from 'react';
-import { BookOpen, Award, TrendingUp, Calendar, FileText, Clock } from 'lucide-react';
+// Children Grades Component for Parents
+import { useState, useMemo } from 'react';
+import { Award, TrendingUp, BookOpen, FileText } from 'lucide-react';
+import { headMasterSchoolStudents } from '../../data';
 import {
   LineChart,
   Line,
@@ -11,7 +12,6 @@ import {
   Legend,
   ResponsiveContainer,
 } from 'recharts';
-import { headMasterSchoolStudents, headMasterSchoolSchedule } from '../../data';
 
 // Mock data - Giả sử phụ huynh đang đăng nhập có con là học sinh đầu tiên
 const currentParent = {
@@ -20,14 +20,15 @@ const currentParent = {
   children: [1], // ID của học sinh
 };
 
-const ParentsDashboard = () => {
+const ChildrenGrades = () => {
+  const [selectedChildId, setSelectedChildId] = useState<number>(currentParent.children[0]);
+
   // Lấy thông tin con
   const children = headMasterSchoolStudents.filter((student) => currentParent.children.includes(student.id));
-  const selectedChild = children[0];
+  const selectedChild = children.find((c) => c.id === selectedChildId) || children[0];
 
-  // Lấy điểm số theo tháng
+  // Lấy điểm số theo tháng (mock data)
   const scoreHistory = useMemo(() => {
-    if (!selectedChild) return [];
     const currentYear = selectedChild.gradeHistory?.find((gh) => gh.year === '2024-2025');
     if (!currentYear?.semester1) return [];
 
@@ -65,7 +66,6 @@ const ParentsDashboard = () => {
   }, [selectedChild]);
 
   const subjectScores = useMemo(() => {
-    if (!selectedChild) return [];
     const currentYear = selectedChild.gradeHistory?.find((gh) => gh.year === '2024-2025');
     if (!currentYear?.semester1) return [];
 
@@ -76,44 +76,43 @@ const ParentsDashboard = () => {
     }));
   }, [selectedChild]);
 
-  // Lấy lịch học
-  const schedule = useMemo(() => {
-    if (!selectedChild) return [];
-    const childSchedule = headMasterSchoolSchedule.filter((s) => s.class === selectedChild.class);
-    const scheduleByDay: Record<string, { morning: string[]; afternoon: string[] }> = {};
-
-    childSchedule.forEach((s) => {
-      if (!scheduleByDay[s.day]) {
-        scheduleByDay[s.day] = { morning: [], afternoon: [] };
-      }
-      if (s.period <= 4) {
-        scheduleByDay[s.day].morning.push(s.subject);
-      } else {
-        scheduleByDay[s.day].afternoon.push(s.subject);
-      }
-    });
-
-    return Object.entries(scheduleByDay).map(([day, subjects]) => ({
-      day,
-      morning: subjects.morning.join(', '),
-      afternoon: subjects.afternoon.join(', '),
-    }));
-  }, [selectedChild]);
-
-  if (!selectedChild) return null;
   return (
     <div className="space-y-4 sm:space-y-6 w-full">
-      {/* Student Info Cards */}
+      {/* Child Selector */}
+      {children.length > 1 && (
+        <section className="rounded-xl sm:rounded-2xl bg-white p-4 sm:p-5 lg:p-6 shadow-md ring-1 ring-slate-100">
+          <h2 className="text-base sm:text-lg font-semibold text-slate-900 mb-3 sm:mb-4">Chọn con</h2>
+          <div className="flex flex-wrap gap-2">
+            {children.map((child) => (
+              <button
+                key={child.id}
+                onClick={() => setSelectedChildId(child.id)}
+                className={`px-4 py-2 rounded-lg font-medium transition-colors ${
+                  selectedChildId === child.id
+                    ? 'bg-pink-600 text-white'
+                    : 'bg-slate-100 text-slate-700 hover:bg-slate-200'
+                }`}
+              >
+                {child.name}
+              </button>
+            ))}
+          </div>
+        </section>
+      )}
+
+      {/* Stats */}
       <section className="rounded-xl sm:rounded-2xl bg-white p-4 sm:p-5 lg:p-6 shadow-md ring-1 ring-slate-100">
-        <h2 className="text-base sm:text-lg font-semibold text-slate-900 mb-3 sm:mb-4">Thông tin học sinh</h2>
-        <div className="grid gap-4 md:grid-cols-4">
+        <h2 className="text-base sm:text-lg font-semibold text-slate-900 mb-3 sm:mb-4 flex items-center gap-2">
+          <Award size={18} className="sm:w-5 sm:h-5 text-pink-600" />
+          <span>Thống kê điểm số - {selectedChild.name}</span>
+        </h2>
+        <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 sm:gap-4">
           <div className="rounded-xl border-2 border-blue-200 bg-gradient-to-br from-blue-50 to-blue-100 p-3 sm:p-4">
             <div className="flex items-center justify-between mb-2">
               <BookOpen className="text-blue-600" size={24} />
-              <span className="text-xs font-semibold text-blue-700">Lớp học</span>
+              <span className="text-xs font-semibold text-blue-700">Lớp</span>
             </div>
             <p className="text-xl sm:text-2xl font-bold text-blue-900">{selectedChild.class}</p>
-            <p className="mt-1 text-xs text-blue-700">{selectedChild.name}</p>
           </div>
           <div className="rounded-xl border-2 border-emerald-200 bg-gradient-to-br from-emerald-50 to-emerald-100 p-3 sm:p-4">
             <div className="flex items-center justify-between mb-2">
@@ -121,7 +120,6 @@ const ParentsDashboard = () => {
               <span className="text-xs font-semibold text-emerald-700">Điểm TB</span>
             </div>
             <p className="text-xl sm:text-2xl font-bold text-emerald-900">{selectedChild.avgScore}</p>
-            <p className="mt-1 text-xs text-emerald-700">Trung bình học kỳ</p>
           </div>
           <div className="rounded-xl border-2 border-purple-200 bg-gradient-to-br from-purple-50 to-purple-100 p-3 sm:p-4">
             <div className="flex items-center justify-between mb-2">
@@ -131,15 +129,13 @@ const ParentsDashboard = () => {
             <p className="text-xl sm:text-2xl font-bold text-purple-900">
               {selectedChild.rank}/{selectedChild.totalStudents}
             </p>
-            <p className="mt-1 text-xs text-purple-700">Trong lớp</p>
           </div>
-          <div className="rounded-xl border-2 border-amber-200 bg-gradient-to-br from-amber-50 to-amber-100 p-3 sm:p-4">
+          <div className="rounded-xl border-2 border-amber-200 bg-gradient-to-br from-amber-50 to-amber-100 p-3 sm:p-4 col-span-2 sm:col-span-1">
             <div className="flex items-center justify-between mb-2">
               <FileText className="text-amber-600" size={24} />
               <span className="text-xs font-semibold text-amber-700">Mã HS</span>
             </div>
             <p className="text-sm font-bold text-amber-900">{selectedChild.studentId}</p>
-            <p className="mt-1 text-xs text-amber-700">Mã học sinh</p>
           </div>
         </div>
       </section>
@@ -164,73 +160,45 @@ const ParentsDashboard = () => {
               <Line type="monotone" dataKey="math" stroke="#3b82f6" strokeWidth={2} name="Toán" />
               <Line type="monotone" dataKey="physics" stroke="#10b981" strokeWidth={2} name="Lý" />
               <Line type="monotone" dataKey="chemistry" stroke="#f59e0b" strokeWidth={2} name="Hóa" />
-              <Line type="monotone" dataKey="avg" stroke="#8b5cf6" strokeWidth={3} name="ĐTB" />
+              <Line type="monotone" dataKey="avg" stroke="#ec4899" strokeWidth={3} name="ĐTB" />
             </LineChart>
           </ResponsiveContainer>
         </div>
       </section>
 
-      <div className="grid gap-4 sm:gap-6 lg:grid-cols-2">
-        {/* Subject Scores */}
-        <section className="rounded-xl sm:rounded-2xl bg-white p-4 sm:p-5 lg:p-6 shadow-md ring-1 ring-slate-100">
-          <h2 className="text-base sm:text-lg font-semibold text-slate-900 mb-3 sm:mb-4">Điểm số theo môn</h2>
-          <div className="space-y-3">
-            {subjectScores.map((item, index) => (
-              <div key={index} className="flex items-center justify-between p-3 rounded-lg border border-slate-200 hover:bg-slate-50">
-                <div className="flex-1">
-                  <p className="text-sm sm:text-base font-semibold text-slate-900">{item.subject}</p>
-                  <p className="text-xs text-slate-500">Xếp hạng: {item.rank}/{selectedChild.totalStudents}</p>
-                </div>
-                <div className="flex items-center gap-3">
-                  <span className="text-lg font-bold text-indigo-600">{item.score}</span>
-                  <span
-                    className={`inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-semibold ${
-                      item.score >= 8.5
-                        ? 'bg-emerald-100 text-emerald-800'
-                        : item.score >= 7.0
-                          ? 'bg-amber-100 text-amber-800'
-                          : 'bg-red-100 text-red-800'
-                    }`}
-                  >
-                    {item.score >= 8.5 ? 'Xuất sắc' : item.score >= 7.0 ? 'Khá' : 'Trung bình'}
-                  </span>
-                </div>
+      {/* Subject Scores */}
+      <section className="rounded-xl sm:rounded-2xl bg-white p-4 sm:p-5 lg:p-6 shadow-md ring-1 ring-slate-100">
+        <h2 className="text-base sm:text-lg font-semibold text-slate-900 mb-3 sm:mb-4">Điểm số theo môn</h2>
+        <div className="space-y-3">
+          {subjectScores.map((item, index) => (
+            <div
+              key={index}
+              className="flex items-center justify-between p-3 sm:p-4 rounded-lg border border-slate-200 hover:bg-slate-50 transition-colors"
+            >
+              <div className="flex-1">
+                <p className="text-sm sm:text-base font-semibold text-slate-900">{item.subject}</p>
+                <p className="text-xs text-slate-500">Xếp hạng: {item.rank}/{selectedChild.totalStudents}</p>
               </div>
-            ))}
-          </div>
-        </section>
-
-        {/* Schedule */}
-        <section className="rounded-xl sm:rounded-2xl bg-white p-4 sm:p-5 lg:p-6 shadow-md ring-1 ring-slate-100">
-          <h2 className="text-base sm:text-lg font-semibold text-slate-900 mb-3 sm:mb-4 flex items-center gap-2">
-            <Calendar size={18} className="sm:w-5 sm:h-5 text-pink-600" />
-            <span>Thời khóa biểu</span>
-          </h2>
-          <div className="space-y-2">
-            {schedule.map((item, index) => (
-              <div key={index} className="flex items-start gap-3 p-3 rounded-lg border border-slate-200 hover:bg-slate-50">
-                <div className="flex-shrink-0 w-20">
-                  <p className="text-sm font-semibold text-slate-900">{item.day}</p>
-                </div>
-                <div className="flex-1 space-y-1">
-                  <div className="flex items-center gap-2 text-xs text-slate-600">
-                    <Clock size={12} />
-                    <span className="font-medium">Sáng:</span>
-                    <span>{item.morning}</span>
-                  </div>
-                  <div className="flex items-center gap-2 text-xs text-slate-600">
-                    <Clock size={12} />
-                    <span className="font-medium">Chiều:</span>
-                    <span>{item.afternoon}</span>
-                  </div>
-                </div>
+              <div className="flex items-center gap-3">
+                <span className="text-lg sm:text-xl font-bold text-pink-600">{item.score}</span>
+                <span
+                  className={`inline-flex items-center rounded-full px-2 sm:px-2.5 py-0.5 text-xs font-semibold ${
+                    item.score >= 8.5
+                      ? 'bg-emerald-100 text-emerald-800'
+                      : item.score >= 7.0
+                        ? 'bg-amber-100 text-amber-800'
+                        : 'bg-red-100 text-red-800'
+                  }`}
+                >
+                  {item.score >= 8.5 ? 'Xuất sắc' : item.score >= 7.0 ? 'Khá' : 'Trung bình'}
+                </span>
               </div>
-            ))}
-          </div>
-        </section>
-      </div>
+            </div>
+          ))}
+        </div>
+      </section>
     </div>
   );
 };
 
-export default ParentsDashboard;
+export default ChildrenGrades;
