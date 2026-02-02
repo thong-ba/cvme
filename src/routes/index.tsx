@@ -15,6 +15,24 @@ import TeachersPage from '../pages/SchoolProject/Teachers';
 import ParentsPage from '../pages/SchoolProject/Parents';
 import StudentsPage from '../pages/SchoolProject/Students';
 import StaffAdminsPage from '../pages/SchoolProject/StaffAdmins';
+import { ProjectIntroductionPage as ECommerceIntroductionPage } from '../pages/ECommerceProject/Introduction';
+import StoreLayout from '../components/eCommerce/StoreLayout';
+import StoreHomePage from '../pages/ECommerceProject/Store/StoreHomePage';
+import ProductListingPage from '../pages/ECommerceProject/Store/ProductListingPage';
+import ProductDetailPage from '../pages/ECommerceProject/Store/ProductDetailPage';
+import CartPage from '../pages/ECommerceProject/Store/CartPage';
+import StoreLoginPage from '../pages/ECommerceProject/Store/StoreLoginPage';
+import StoreRegisterPage from '../pages/ECommerceProject/Store/StoreRegisterPage';
+import StoreForgotPasswordPage from '../pages/ECommerceProject/Store/StoreForgotPasswordPage';
+import StoreAboutPage from '../pages/ECommerceProject/Store/StoreAboutPage';
+import StorePrivacyPolicyPage from '../pages/ECommerceProject/Store/StorePrivacyPolicyPage';
+import StoreReturnPolicyPage from '../pages/ECommerceProject/Store/StoreReturnPolicyPage';
+import StoreTermsPage from '../pages/ECommerceProject/Store/StoreTermsPage';
+import { CustomerPage } from '../pages/ECommerceProject/Customer';
+import { SellerPage } from '../pages/ECommerceProject/Seller';
+import { AdminPage as AdminECommercePage } from '../pages/ECommerceProject/Admin';
+import { StaffPage as StaffECommercePage } from '../pages/ECommerceProject/Staff';
+import { WarehousePage } from '../pages/ECommerceProject/Warehouse';
 
 export const router = createBrowserRouter([
   {
@@ -69,6 +87,49 @@ export const router = createBrowserRouter([
       {
         path: 'school-project/staff-admins',
         element: <StaffAdminsPage />,
+      },
+      // E-Commerce Project
+      {
+        path: 'ecommerce',
+        element: <ECommerceIntroductionPage />,
+      },
+      {
+        path: 'ecommerce/store',
+        element: <StoreLayout />,
+        children: [
+          { index: true, element: <StoreHomePage /> },
+          { path: 'products', element: <ProductListingPage /> },
+          { path: 'category/:categorySlug', element: <ProductListingPage /> },
+          { path: 'product/:productSlug', element: <ProductDetailPage /> },
+          { path: 'cart', element: <CartPage /> },
+          { path: 'login', element: <StoreLoginPage /> },
+          { path: 'register', element: <StoreRegisterPage /> },
+          { path: 'forgot-password', element: <StoreForgotPasswordPage /> },
+          { path: 'about', element: <StoreAboutPage /> },
+          { path: 'privacy', element: <StorePrivacyPolicyPage /> },
+          { path: 'return-policy', element: <StoreReturnPolicyPage /> },
+          { path: 'terms', element: <StoreTermsPage /> },
+        ],
+      },
+      {
+        path: 'ecommerce/customer',
+        element: <CustomerPage />,
+      },
+      {
+        path: 'ecommerce/seller',
+        element: <SellerPage />,
+      },
+      {
+        path: 'ecommerce/admin',
+        element: <AdminECommercePage />,
+      },
+      {
+        path: 'ecommerce/staff',
+        element: <StaffECommercePage />,
+      },
+      {
+        path: 'ecommerce/warehouse',
+        element: <WarehousePage />,
       },
       {
         path: '*',

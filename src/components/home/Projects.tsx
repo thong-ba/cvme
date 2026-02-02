@@ -44,7 +44,7 @@ const Projects = () => {
       description:
         'Hệ thống quản lý bán hàng online với đầy đủ tính năng: quản lý sản phẩm, đơn hàng, khách hàng, tồn kho và báo cáo doanh thu. Dashboard trực quan với biểu đồ thống kê real-time, quản lý inventory và order processing.',
       stack: ['React', 'TypeScript', 'Vite', 'React Query', 'REST API'],
-      demo: '#',
+      demo: '/ecommerce',
       github: '#',
       featured: false,
       highlights: ['Real-time updates', 'Inventory management', 'Order processing'],
@@ -128,7 +128,7 @@ const Projects = () => {
 
               {/* Actions */}
               <div className="mt-auto flex items-center gap-4">
-                {project.name === 'Hệ thống Quản lý Trường học' ? (
+                {project.demo && project.demo !== '#' ? (
                   <Link
                     to={project.demo}
                     className="group inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-indigo-600 to-purple-600 px-5 py-2 text-sm font-semibold text-white shadow-md transition-all duration-300 hover:scale-105 hover:shadow-lg"

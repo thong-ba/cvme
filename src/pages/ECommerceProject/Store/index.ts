@@ -1,0 +1,11 @@
+export { default as StoreHomePage } from './StoreHomePage';
+export { default as ProductListingPage } from './ProductListingPage';
+export { default as ProductDetailPage } from './ProductDetailPage';
+export { default as CartPage } from './CartPage';
+export { default as StoreLoginPage } from './StoreLoginPage';
+export { default as StoreRegisterPage } from './StoreRegisterPage';
+export { default as StoreForgotPasswordPage } from './StoreForgotPasswordPage';
+export { default as StoreAboutPage } from './StoreAboutPage';
+export { default as StorePrivacyPolicyPage } from './StorePrivacyPolicyPage';
+export { default as StoreReturnPolicyPage } from './StoreReturnPolicyPage';
+export { default as StoreTermsPage } from './StoreTermsPage';

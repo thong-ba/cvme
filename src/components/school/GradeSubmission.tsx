@@ -1,7 +1,8 @@
 // Grade Submission Component for Teachers
 import { useState, useMemo } from 'react';
 import { Send, CheckCircle, XCircle, FileText } from 'lucide-react';
-import { Pagination } from 'antd';
+import { Modal, Pagination } from 'antd';
+import { toastSuccess } from '../../utils/toast';
 
 // Mock data - Giả sử giáo viên đang đăng nhập là Nguyễn Văn A (Toán)
 const currentTeacher = {
@@ -58,13 +59,16 @@ const mockSubmissions: SubmissionRecord[] = [
 ];
 
 const GradeSubmission = () => {
+  const [submissions, setSubmissions] = useState<SubmissionRecord[]>(mockSubmissions);
   const [selectedClass, setSelectedClass] = useState<string>('all');
   const [selectedStatus, setSelectedStatus] = useState<string>('all');
   const [currentPage, setCurrentPage] = useState(1);
+  const [confirmRecord, setConfirmRecord] = useState<SubmissionRecord | null>(null);
+  const [submitting, setSubmitting] = useState(false);
   const itemsPerPage = 8;
 
   const filteredSubmissions = useMemo(() => {
-    let result = [...mockSubmissions];
+    let result = [...submissions];
 
     if (selectedClass !== 'all') {
       result = result.filter((sub) => sub.class === selectedClass);
@@ -75,15 +79,35 @@ const GradeSubmission = () => {
     }
 
     return result;
-  }, [selectedClass, selectedStatus]);
+  }, [submissions, selectedClass, selectedStatus]);
 
   const paginatedSubmissions = filteredSubmissions.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage);
 
-  const handleSubmit = () => {
-    if (window.confirm('Bạn có chắc chắn muốn nộp điểm cho lớp này?')) {
-      // TODO: Submit to server
-      alert('Đã nộp điểm thành công!');
-    }
+  const openConfirm = (record: SubmissionRecord) => setConfirmRecord(record);
+  const closeConfirm = () => {
+    if (!submitting) setConfirmRecord(null);
+  };
+
+  const handleConfirmSubmit = () => {
+    if (!confirmRecord) return;
+    setSubmitting(true);
+    // Giả lập gọi API
+    setTimeout(() => {
+      setSubmissions((prev) =>
+        prev.map((s) =>
+          s.id === confirmRecord.id
+            ? {
+                ...s,
+                status: 'submitted' as const,
+                submittedDate: new Date().toISOString().slice(0, 10),
+              }
+            : s
+        )
+      );
+      setSubmitting(false);
+      setConfirmRecord(null);
+      toastSuccess('Đã nộp điểm thành công!');
+    }, 400);
   };
 
   const getStatusColor = (status: string) => {
@@ -129,27 +153,27 @@ const GradeSubmission = () => {
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 sm:gap-4">
           <div className="rounded-xl border-2 border-blue-200 bg-gradient-to-br from-blue-50 to-blue-100 p-3 sm:p-4">
             <p className="text-xs font-semibold text-blue-700 mb-1">Tổng số</p>
-            <p className="text-xl sm:text-2xl font-bold text-blue-900">{mockSubmissions.length}</p>
+            <p className="text-xl sm:text-2xl font-bold text-blue-900">{submissions.length}</p>
             <p className="text-xs text-blue-700 mt-1">lớp</p>
           </div>
           <div className="rounded-xl border-2 border-emerald-200 bg-gradient-to-br from-emerald-50 to-emerald-100 p-3 sm:p-4">
             <p className="text-xs font-semibold text-emerald-700 mb-1">Đã duyệt</p>
             <p className="text-xl sm:text-2xl font-bold text-emerald-900">
-              {mockSubmissions.filter((s) => s.status === 'approved').length}
+              {submissions.filter((s) => s.status === 'approved').length}
             </p>
             <p className="text-xs text-emerald-700 mt-1">lớp</p>
           </div>
           <div className="rounded-xl border-2 border-blue-200 bg-gradient-to-br from-blue-50 to-blue-100 p-3 sm:p-4">
             <p className="text-xs font-semibold text-blue-700 mb-1">Đã nộp</p>
             <p className="text-xl sm:text-2xl font-bold text-blue-900">
-              {mockSubmissions.filter((s) => s.status === 'submitted').length}
+              {submissions.filter((s) => s.status === 'submitted').length}
             </p>
             <p className="text-xs text-blue-700 mt-1">lớp</p>
           </div>
           <div className="rounded-xl border-2 border-amber-200 bg-gradient-to-br from-amber-50 to-amber-100 p-3 sm:p-4 col-span-2 sm:col-span-1">
             <p className="text-xs font-semibold text-amber-700 mb-1">Chưa nộp</p>
             <p className="text-xl sm:text-2xl font-bold text-amber-900">
-              {mockSubmissions.filter((s) => s.status === 'pending').length}
+              {submissions.filter((s) => s.status === 'pending').length}
             </p>
             <p className="text-xs text-amber-700 mt-1">lớp</p>
           </div>
@@ -248,7 +272,7 @@ const GradeSubmission = () => {
                   <td className="px-3 sm:px-4 py-2 sm:py-3 text-sm whitespace-nowrap">
                     {submission.status === 'pending' && (
                       <button
-                        onClick={handleSubmit}
+                        onClick={() => openConfirm(submission)}
                         className="inline-flex items-center gap-1 px-3 py-1.5 bg-indigo-600 text-white rounded-lg text-xs font-medium hover:bg-indigo-700 transition-colors"
                       >
                         <Send size={12} />
@@ -267,6 +291,26 @@ const GradeSubmission = () => {
             </tbody>
           </table>
         </div>
+        {/* Modal xác nhận nộp điểm */}
+        <Modal
+          title="Xác nhận nộp điểm"
+          open={!!confirmRecord}
+          onCancel={closeConfirm}
+          onOk={handleConfirmSubmit}
+          okText="Nộp điểm"
+          cancelText="Hủy"
+          confirmLoading={submitting}
+          closable={!submitting}
+          maskClosable={!submitting}
+          okButtonProps={{ className: 'bg-indigo-600 hover:!bg-indigo-700' }}
+        >
+          {confirmRecord && (
+            <p className="text-slate-600">
+              Bạn có chắc chắn muốn nộp điểm cho lớp <strong className="text-slate-900">{confirmRecord.class}</strong> (Học kỳ {confirmRecord.semester}, {confirmRecord.year})?
+            </p>
+          )}
+        </Modal>
+
         <div className="mt-4 flex justify-center">
           <Pagination
             current={currentPage}
