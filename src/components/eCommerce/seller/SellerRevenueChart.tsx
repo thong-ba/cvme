@@ -23,7 +23,7 @@ export default function SellerRevenueChart({ data }: SellerRevenueChartProps) {
             <XAxis dataKey="dateShort" tick={{ fontSize: 12 }} stroke="#64748b" />
             <YAxis tick={{ fontSize: 12 }} stroke="#64748b" tickFormatter={(v) => `${v / 1e6}M`} />
             <Tooltip
-              formatter={(value: number) => [formatCurrency(value), 'Doanh thu']}
+              formatter={(value: number | undefined) => [value != null ? formatCurrency(value) : '—', 'Doanh thu']}
               labelFormatter={(_, payload) => payload[0]?.payload && formatDate(payload[0].payload.date)}
               contentStyle={{ borderRadius: '8px', border: '1px solid #e2e8f0' }}
             />
