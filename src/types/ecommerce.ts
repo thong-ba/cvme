@@ -91,3 +91,35 @@ export interface ProductFilterParams {
   limit?: number;
   q?: string;
 }
+
+export interface OrderItem {
+  productId: string;
+  productName: string;
+  productSlug: string;
+  thumbnail: string;
+  price: number;
+  salePrice?: number;
+  quantity: number;
+  variant?: { type: string; value: string };
+}
+
+export type OrderStatus =
+  | 'pending'
+  | 'confirmed'
+  | 'processing'
+  | 'shipping'
+  | 'delivered'
+  | 'cancelled';
+
+export interface Order {
+  id: string;
+  userId?: string;
+  items: OrderItem[];
+  shippingAddress: string;
+  phone: string;
+  fullName: string;
+  note?: string;
+  status: OrderStatus;
+  totalAmount: number;
+  createdAt: string;
+}

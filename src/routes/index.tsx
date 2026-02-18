@@ -1,5 +1,5 @@
 // Cấu hình router
-import { createBrowserRouter } from 'react-router-dom';
+import { createBrowserRouter, Outlet } from 'react-router-dom';
 import App from '../App';
 import HomePage from '../pages/HomePage/index.tsx';
 import NotFoundPage from '../pages/NotFoundPage';
@@ -28,7 +28,7 @@ import StoreAboutPage from '../pages/ECommerceProject/Store/StoreAboutPage';
 import StorePrivacyPolicyPage from '../pages/ECommerceProject/Store/StorePrivacyPolicyPage';
 import StoreReturnPolicyPage from '../pages/ECommerceProject/Store/StoreReturnPolicyPage';
 import StoreTermsPage from '../pages/ECommerceProject/Store/StoreTermsPage';
-import { CustomerPage } from '../pages/ECommerceProject/Customer';
+import { CustomerPage, CustomerOrderPage } from '../pages/ECommerceProject/Customer';
 import { SellerPage } from '../pages/ECommerceProject/Seller';
 import { AdminPage as AdminECommercePage } from '../pages/ECommerceProject/Admin';
 import { StaffPage as StaffECommercePage } from '../pages/ECommerceProject/Staff';
@@ -113,7 +113,11 @@ export const router = createBrowserRouter([
       },
       {
         path: 'ecommerce/customer',
-        element: <CustomerPage />,
+        element: <Outlet />,
+        children: [
+          { index: true, element: <CustomerPage /> },
+          { path: 'order', element: <CustomerOrderPage /> },
+        ],
       },
       {
         path: 'ecommerce/seller',

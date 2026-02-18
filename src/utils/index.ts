@@ -1,5 +1,34 @@
 // Helper functions
 
+const CART_STORAGE_KEY = 'ecommerce_cart';
+
+/**
+ * Format tiền VND
+ */
+export const formatCurrency = (amount: number): string => {
+  return new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(amount);
+};
+
+/**
+ * Đọc giỏ hàng từ localStorage (cùng key với CartContext, dùng cho trang đặt hàng ngoài StoreLayout)
+ */
+export function getStoredCart<T = unknown>(): T[] {
+  try {
+    const raw = localStorage.getItem(CART_STORAGE_KEY);
+    if (!raw) return [];
+    return JSON.parse(raw) as T[];
+  } catch {
+    return [];
+  }
+}
+
+/**
+ * Xóa giỏ hàng trong localStorage
+ */
+export function clearStoredCart(): void {
+  localStorage.removeItem(CART_STORAGE_KEY);
+}
+
 /**
  * Format date
  */

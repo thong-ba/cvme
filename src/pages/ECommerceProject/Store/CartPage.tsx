@@ -124,10 +124,10 @@ const CartPage = () => {
               Đăng nhập hoặc nhập thông tin giao hàng ở bước thanh toán.
             </p>
             <Link
-              to="/ecommerce/customer"
+              to="/ecommerce/customer/order"
               className="mt-4 block w-full text-center py-3 bg-violet-600 text-white font-semibold rounded-lg hover:bg-violet-700 transition-colors"
             >
-              Thanh toán (Customer)
+              Đặt hàng (Customer)
             </Link>
             <Link
               to="/ecommerce/store"
