@@ -123,3 +123,32 @@ export interface Order {
   totalAmount: number;
   createdAt: string;
 }
+
+/** Khuyến mãi (Seller) */
+export interface Promotion {
+  id: string;
+  name: string;
+  type: 'percent' | 'fixed';
+  value: number; // % hoặc số tiền
+  minOrderAmount?: number;
+  startDate: string;
+  endDate: string;
+  status: 'active' | 'scheduled' | 'ended';
+  productIds?: string[];
+}
+
+/** Doanh thu theo ngày (Seller) */
+export interface RevenueByDay {
+  date: string;
+  revenue: number;
+  orders: number;
+}
+
+/** Sản phẩm bán chạy (Seller) */
+export interface TopProductSold {
+  productId: string;
+  productName: string;
+  productSlug: string;
+  quantitySold: number;
+  revenue: number;
+}

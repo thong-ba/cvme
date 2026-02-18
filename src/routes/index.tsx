@@ -29,8 +29,22 @@ import StorePrivacyPolicyPage from '../pages/ECommerceProject/Store/StorePrivacy
 import StoreReturnPolicyPage from '../pages/ECommerceProject/Store/StoreReturnPolicyPage';
 import StoreTermsPage from '../pages/ECommerceProject/Store/StoreTermsPage';
 import { CustomerPage, CustomerOrderPage } from '../pages/ECommerceProject/Customer';
-import { SellerPage } from '../pages/ECommerceProject/Seller';
-import { AdminPage as AdminECommercePage } from '../pages/ECommerceProject/Admin';
+import {
+  SellerPage,
+  SellerProductsPage,
+  SellerPromotionsPage,
+  SellerOrdersPage,
+  SellerRevenuePage,
+} from '../pages/ECommerceProject/Seller';
+import {
+  AdminPage as AdminECommercePage,
+  AdminLayout as AdminECommerceLayout,
+  AdminUsersPage,
+  AdminProductsPage,
+  AdminOrdersPage,
+  AdminPermissionsPage,
+  AdminContentPage,
+} from '../pages/ECommerceProject/Admin';
 import { StaffPage as StaffECommercePage } from '../pages/ECommerceProject/Staff';
 import { WarehousePage } from '../pages/ECommerceProject/Warehouse';
 
@@ -121,11 +135,26 @@ export const router = createBrowserRouter([
       },
       {
         path: 'ecommerce/seller',
-        element: <SellerPage />,
+        element: <Outlet />,
+        children: [
+          { index: true, element: <SellerPage /> },
+          { path: 'products', element: <SellerProductsPage /> },
+          { path: 'promotions', element: <SellerPromotionsPage /> },
+          { path: 'orders', element: <SellerOrdersPage /> },
+          { path: 'revenue', element: <SellerRevenuePage /> },
+        ],
       },
       {
         path: 'ecommerce/admin',
-        element: <AdminECommercePage />,
+        element: <AdminECommerceLayout />,
+        children: [
+          { index: true, element: <AdminECommercePage /> },
+          { path: 'users', element: <AdminUsersPage /> },
+          { path: 'products', element: <AdminProductsPage /> },
+          { path: 'orders', element: <AdminOrdersPage /> },
+          { path: 'permissions', element: <AdminPermissionsPage /> },
+          { path: 'content', element: <AdminContentPage /> },
+        ],
       },
       {
         path: 'ecommerce/staff',

@@ -21,3 +21,5 @@ export { default as ProductImageGallery } from './ProductImageGallery';
 export { default as ProductInfo } from './ProductInfo';
 export { default as ProductDescription } from './ProductDescription';
 export { default as ProductReviews } from './ProductReviews';
+export { SellerProductTable, SellerOrderTable, SellerRevenueChart, SellerPromotionList, SellerNavBar } from './seller';
+export { AdminNavBar } from './admin';
