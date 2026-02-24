@@ -1,8 +1,12 @@
 // Contact section
 import { useState, useEffect } from 'react';
 import { Mail, Github, Phone, Facebook, MapPin, Send, Copy, Check } from 'lucide-react';
+import { useLanguage } from '../../contexts/LanguageContext';
+import { homeTranslations } from '../../locales/home';
 
 const Contact = () => {
+  const { locale } = useLanguage();
+  const t = homeTranslations[locale].contact;
   const [isVisible, setIsVisible] = useState(false);
   const [copied, setCopied] = useState<string | null>(null);
 
@@ -35,38 +39,10 @@ const Contact = () => {
   };
 
   const contacts = [
-    {
-      icon: Phone,
-      label: 'Phone',
-      value: '0397090051',
-      href: 'tel:+84397090051',
-      color: 'emerald',
-      copy: '+84397090051',
-    },
-    {
-      icon: Mail,
-      label: 'Email',
-      value: 'thonglyngocse@gmail.com',
-      href: 'mailto:thonglyngocse@gmail.com',
-      color: 'indigo',
-      copy: 'thonglyngocse@gmail.com',
-    },
-    {
-      icon: Github,
-      label: 'GitHub',
-      value: 'github.com/thong-ba',
-      href: 'https://github.com/thong-ba',
-      color: 'slate',
-      copy: 'https://github.com/thong-ba',
-    },
-    {
-      icon: Facebook,
-      label: 'Facebook',
-      value: 'facebook.com/thonglnse',
-      href: 'https://www.facebook.com/thonglnse/',
-      color: 'sky',
-      copy: 'https://www.facebook.com/thonglnse/',
-    },
+    { icon: Phone, label: 'Phone', value: '0397090051', href: 'tel:+84397090051', color: 'emerald', copy: '+84397090051' },
+    { icon: Mail, label: 'Email', value: 'thonglyngocse@gmail.com', href: 'mailto:thonglyngocse@gmail.com', color: 'indigo', copy: 'thonglyngocse@gmail.com' },
+    { icon: Github, label: 'GitHub', value: 'github.com/thong-ba', href: 'https://github.com/thong-ba', color: 'slate', copy: 'https://github.com/thong-ba' },
+    { icon: Facebook, label: 'Facebook', value: 'facebook.com/thonglnse', href: 'https://www.facebook.com/thonglnse/', color: 'sky', copy: 'https://www.facebook.com/thonglnse/' },
   ];
 
   const getColorClasses = (color: string) => {
@@ -85,10 +61,10 @@ const Contact = () => {
         <div className={`mb-8 transition-all duration-1000 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
           <div className="inline-flex items-center gap-2 mb-3">
             <div className="h-1 w-12 bg-gradient-to-r from-indigo-600 to-purple-600 rounded-full"></div>
-            <h2 className="text-2xl font-bold text-slate-900 sm:text-3xl dark:text-slate-100">Contact</h2>
+            <h2 className="text-2xl font-bold text-slate-900 sm:text-3xl dark:text-slate-100">{t.title}</h2>
           </div>
           <p className="mt-2 text-base text-slate-600 dark:text-slate-400">
-            Hãy liên hệ với tôi nếu bạn có bất kỳ câu hỏi nào hoặc muốn hợp tác!
+            {t.subtitle}
           </p>
         </div>
 
@@ -148,9 +124,9 @@ const Contact = () => {
             </div>
             <div>
               <p className="text-xs font-semibold uppercase tracking-wide text-slate-500 dark:text-slate-400 mb-1">
-                Location
+                {t.locationLabel}
               </p>
-              <p className="text-base font-semibold text-slate-900 dark:text-slate-100">Hóc Môn, Thành phố Hồ Chí Minh</p>
+              <p className="text-base font-semibold text-slate-900 dark:text-slate-100">{t.locationValue}</p>
             </div>
           </div>
         </div>
@@ -162,7 +138,7 @@ const Contact = () => {
             className="group inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-indigo-600 to-purple-600 px-8 py-4 text-base font-semibold text-white shadow-lg transition-all duration-300 hover:scale-105 hover:shadow-xl"
           >
             <Send size={18} />
-            Send me a message
+            {t.sendMessage}
             <Send size={18} className="transition-transform group-hover:translate-x-1" />
           </a>
         </div>
@@ -172,4 +148,3 @@ const Contact = () => {
 };
 
 export default Contact;
-

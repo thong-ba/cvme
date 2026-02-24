@@ -2,8 +2,12 @@
 import { useState, useEffect } from 'react';
 import { FolderGit2, Github, Sparkles, ArrowRight } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import { useLanguage } from '../../contexts/LanguageContext';
+import { homeTranslations } from '../../locales/home';
 
 const Projects = () => {
+  const { locale } = useLanguage();
+  const t = homeTranslations[locale].projects;
   const [isVisible, setIsVisible] = useState(false);
 
   useEffect(() => {
@@ -29,36 +33,9 @@ const Projects = () => {
   }, []);
 
   const projects = [
-    {
-      name: 'Hệ thống Quản lý Trường học',
-      description:
-        'Hệ thống quản lý toàn diện cho trường học với đầy đủ tính năng: quản lý học sinh, giáo viên, lớp học, điểm số và thời khóa biểu. Dashboard admin với biểu đồ thống kê, quản lý hợp đồng và tài khoản. Giao diện trực quan, responsive, hỗ trợ dark mode.',
-      stack: ['React', 'TypeScript', 'Tailwind CSS', 'Recharts', 'React Router'],
-      demo: '/school-project',
-      github: 'https://github.com/thong-ba',
-      featured: true,
-      highlights: ['Dashboard với charts', 'Quản lý đa vai trò', 'Dark mode', 'Responsive design'],
-    },
-    {
-      name: 'Nền tảng Quản lý Bán hàng',
-      description:
-        'Hệ thống quản lý bán hàng online với đầy đủ tính năng: quản lý sản phẩm, đơn hàng, khách hàng, tồn kho và báo cáo doanh thu. Dashboard trực quan với biểu đồ thống kê real-time, quản lý inventory và order processing.',
-      stack: ['React', 'TypeScript', 'Vite', 'React Query', 'REST API'],
-      demo: '/ecommerce',
-      github: '#',
-      featured: false,
-      highlights: ['Real-time updates', 'Inventory management', 'Order processing'],
-    },
-    {
-      name: 'Hệ thống Quản lý Công ty',
-      description:
-        'Platform quản lý nội bộ công ty: quản lý nhân sự, dự án, công việc, phòng ban và báo cáo. Tối ưu workflow, tăng hiệu quả làm việc của team với kanban board, task management và team collaboration tools.',
-      stack: ['React', 'TypeScript', 'Tailwind CSS', 'React Router', 'REST API'],
-      demo: '#',
-      github: '#',
-      featured: false,
-      highlights: ['Kanban board', 'Task management', 'Team collaboration'],
-    },
+    { ...t.list[0], stack: ['React', 'TypeScript', 'Tailwind CSS', 'Recharts', 'React Router'], demo: '/school-project', github: 'https://github.com/thong-ba', featured: true },
+    { ...t.list[1], stack: ['React', 'TypeScript', 'Vite', 'React Query', 'REST API'], demo: '/ecommerce', github: '#', featured: false },
+    { ...t.list[2], stack: ['React', 'TypeScript', 'Tailwind CSS', 'React Router', 'REST API'], demo: '#', github: '#', featured: false },
   ];
 
   return (
@@ -67,7 +44,7 @@ const Projects = () => {
         <div className={`mb-8 transition-all duration-1000 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
           <div className="inline-flex items-center gap-2 mb-3">
             <div className="h-1 w-12 bg-gradient-to-r from-indigo-600 to-purple-600 rounded-full"></div>
-            <h2 className="text-2xl font-bold text-slate-900 sm:text-3xl dark:text-slate-100">Projects</h2>
+            <h2 className="text-2xl font-bold text-slate-900 sm:text-3xl dark:text-slate-100">{t.title}</h2>
           </div>
         </div>
 
@@ -83,7 +60,7 @@ const Projects = () => {
               {project.featured && (
                 <div className="absolute top-4 right-4 flex items-center gap-1 rounded-full bg-gradient-to-r from-indigo-500 to-purple-500 px-3 py-1 text-xs font-semibold text-white">
                   <Sparkles size={12} />
-                  Featured
+                  {t.featured}
                 </div>
               )}
 
@@ -133,12 +110,12 @@ const Projects = () => {
                     to={project.demo}
                     className="group inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-indigo-600 to-purple-600 px-5 py-2 text-sm font-semibold text-white shadow-md transition-all duration-300 hover:scale-105 hover:shadow-lg"
                   >
-                    Xem dự án
+                    {t.viewProject}
                     <ArrowRight size={14} className="transition-transform group-hover:translate-x-1" />
                   </Link>
                 ) : (
                   <span className="inline-flex items-center gap-2 rounded-full border border-slate-300 px-5 py-2 text-sm font-medium text-slate-500 dark:border-slate-600 dark:text-slate-400">
-                    Coming soon
+                    {t.comingSoon}
                   </span>
                 )}
                 {project.github !== '#' && (
@@ -149,7 +126,7 @@ const Projects = () => {
                     className="inline-flex items-center gap-2 rounded-full border border-slate-300 px-4 py-2 text-sm font-medium text-slate-700 transition-all duration-300 hover:border-slate-400 hover:bg-slate-50 dark:border-slate-600 dark:text-slate-200 dark:hover:bg-slate-800"
                   >
                     <Github size={16} />
-                    Code
+                    {t.code}
                   </a>
                 )}
               </div>
@@ -162,4 +139,3 @@ const Projects = () => {
 };
 
 export default Projects;
-

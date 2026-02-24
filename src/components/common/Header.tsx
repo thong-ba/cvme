@@ -18,8 +18,12 @@ import {
 } from 'lucide-react';
 import { useGeolocation, useVietnamTime } from '../../hooks';
 import { geocodingService } from '../../services/geocoding.service';
+import { useLanguage } from '../../contexts/LanguageContext';
+import { homeTranslations } from '../../locales/home';
 
 const Header = () => {
+  const { locale, setLocale } = useLanguage();
+  const navLabels = homeTranslations[locale].nav;
   const getInitialTheme = (): 'light' | 'dark' => {
     if (typeof window === 'undefined') return 'light';
     const stored = window.localStorage.getItem('cv-theme');
@@ -93,11 +97,11 @@ const Header = () => {
   };
 
   const navItems = [
-    { href: '#about', icon: User, label: 'About' },
-    { href: '#experience', icon: Briefcase, label: 'Experience' },
-    { href: '#projects', icon: FolderGit2, label: 'Projects' },
-    { href: '#skills', icon: Code2, label: 'Skills' },
-    { href: '#contact', icon: Mail, label: 'Contact' },
+    { href: '#about', icon: User, label: navLabels.about },
+    { href: '#experience', icon: Briefcase, label: navLabels.experience },
+    { href: '#projects', icon: FolderGit2, label: navLabels.projects },
+    { href: '#skills', icon: Code2, label: navLabels.skills },
+    { href: '#contact', icon: Mail, label: navLabels.contact },
   ];
 
   const handleNavClick = () => {
@@ -239,6 +243,27 @@ const Header = () => {
                   </div>
                 </div>
               )}
+            </div>
+
+            {/* Language switcher: Tiếng Việt | English */}
+            <div className="flex items-center gap-0.5 rounded-full border border-slate-200 bg-white text-xs font-medium dark:border-slate-700 dark:bg-slate-900">
+              <button
+                type="button"
+                onClick={() => setLocale('vi')}
+                className={`rounded-l-full px-2.5 py-1.5 transition-colors ${locale === 'vi' ? 'bg-indigo-600 text-white dark:bg-indigo-500' : 'text-slate-600 hover:bg-slate-100 dark:text-slate-300 dark:hover:bg-slate-800'}`}
+                aria-label="Tiếng Việt"
+              >
+                VI
+              </button>
+              <span className="text-slate-300 dark:text-slate-600">|</span>
+              <button
+                type="button"
+                onClick={() => setLocale('en')}
+                className={`rounded-r-full px-2.5 py-1.5 transition-colors ${locale === 'en' ? 'bg-indigo-600 text-white dark:bg-indigo-500' : 'text-slate-600 hover:bg-slate-100 dark:text-slate-300 dark:hover:bg-slate-800'}`}
+                aria-label="English"
+              >
+                EN
+              </button>
             </div>
 
             <button

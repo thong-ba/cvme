@@ -1,8 +1,12 @@
 // Experience / Timeline section
 import { useState, useEffect } from 'react';
 import { Building2, Calendar, MapPin, CheckCircle2 } from 'lucide-react';
+import { useLanguage } from '../../contexts/LanguageContext';
+import { homeTranslations } from '../../locales/home';
 
 const Experience = () => {
+  const { locale } = useLanguage();
+  const t = homeTranslations[locale].experience;
   const [isVisible, setIsVisible] = useState(false);
 
   useEffect(() => {
@@ -26,37 +30,6 @@ const Experience = () => {
       }
     };
   }, []);
-
-  const items = [
-    {
-      company: 'FSI – Data System',
-      role: 'Frontend Intern',
-      time: '06/2025 – 09/2025',
-      location: 'Ho Chi Minh City',
-      description: [
-        'Tham gia dự án số hoá dữ liệu địa chỉ cư dân cho các tỉnh miền Tây, phục vụ hệ thống quản lý dữ liệu điện tử quy mô lớn.',
-        'Thực hiện nhập liệu, chuẩn hoá và kiểm tra tính hợp lệ của dữ liệu (format, logic, tính nhất quán) trước khi đưa vào hệ thống.',
-        'Phối hợp với team quản lý trong việc kiểm duyệt, đối soát và xử lý dữ liệu sai lệch, đảm bảo dữ liệu đầu vào chính xác cho hệ thống hiển thị và báo cáo.',
-        'Hiểu và tuân thủ luồng dữ liệu (data flow), yêu cầu nghiệp vụ và quy trình vận hành của hệ thống thực tế.',
-      ],
-      keywords: ['Data Validation', 'Data Flow', 'System Logic', 'Digital Transformation', 'Team Collaboration'],
-      color: 'indigo',
-    },
-    {
-      company: 'Amazing Tech – Internal System',
-      role: 'Frontend Support Intern',
-      time: '11/2024 – 03/2025',
-      location: 'Ho Chi Minh City',
-      description: [
-        'Hỗ trợ mảng quản lý nhân sự, làm việc với dữ liệu và tài liệu phục vụ các quy trình nội bộ của doanh nghiệp.',
-        'Tham gia biên soạn, tổng hợp tài liệu và chuẩn bị dữ liệu cho các cuộc họp, giúp cải thiện luồng trao đổi thông tin nội bộ.',
-        'Phối hợp xây dựng và lập trình dự án giáo dục nội bộ, hỗ trợ triển khai các chức năng phục vụ đào tạo trong công ty.',
-        'Làm việc với yêu cầu nghiệp vụ (business requirements) và tư duy hệ thống, tạo nền tảng cho việc phát triển giao diện và trải nghiệm người dùng.',
-      ],
-      keywords: ['Internal System', 'Business Requirements', 'Basic Development', 'Data Handling', 'UX Awareness'],
-      color: 'purple',
-    },
-  ];
 
   const getColorClasses = (color: string) => {
     const colors: Record<string, { bg: string; text: string; border: string; dot: string }> = {
@@ -82,7 +55,7 @@ const Experience = () => {
         <div className={`mb-8 transition-all duration-1000 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
           <div className="inline-flex items-center gap-2 mb-3">
             <div className="h-1 w-12 bg-gradient-to-r from-indigo-600 to-purple-600 rounded-full"></div>
-            <h2 className="text-2xl font-bold text-slate-900 sm:text-3xl dark:text-slate-100">Experience</h2>
+            <h2 className="text-2xl font-bold text-slate-900 sm:text-3xl dark:text-slate-100">{t.title}</h2>
           </div>
         </div>
 
@@ -90,8 +63,9 @@ const Experience = () => {
           {/* Timeline line */}
           <div className="absolute left-6 top-0 bottom-0 w-0.5 bg-gradient-to-b from-indigo-300 via-purple-300 to-transparent dark:from-indigo-600 dark:via-purple-600"></div>
 
-          {items.map((item, index) => {
-            const colors = getColorClasses(item.color);
+          {t.items.map((item, index) => {
+            const color = index === 0 ? 'indigo' : 'purple';
+            const colors = getColorClasses(color);
             return (
               <article
                 key={item.company + item.time}
@@ -113,7 +87,7 @@ const Experience = () => {
                     </div>
                   </div>
                   <div className="flex items-center gap-4 mb-2">
-                    <p className={`text-sm font-semibold uppercase tracking-wide ${colors.text} dark:text-${item.color}-400`}>
+                    <p className={`text-sm font-semibold uppercase tracking-wide ${colors.text} ${color === 'indigo' ? 'dark:text-indigo-400' : 'dark:text-purple-400'}`}>
                       {item.role}
                     </p>
                     <div className="flex items-center gap-1 text-xs text-slate-500 dark:text-slate-400">
@@ -136,7 +110,7 @@ const Experience = () => {
                 {/* Keywords */}
                 <div className="mt-5 border-t border-slate-200 pt-4 dark:border-slate-700">
                   <span className="mb-2 block text-xs font-semibold uppercase tracking-wide text-slate-500 dark:text-slate-400">
-                    Technical Keywords
+                    {t.technicalKeywords}
                   </span>
                   <div className="flex flex-wrap gap-2">
                     {item.keywords.map((keyword) => (
@@ -159,4 +133,3 @@ const Experience = () => {
 };
 
 export default Experience;
-

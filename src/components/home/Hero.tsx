@@ -2,8 +2,12 @@
 import { useState, useEffect } from 'react';
 import { Sparkles, ArrowRight, Send, X, Download, MapPin, Calendar, Briefcase } from 'lucide-react';
 import avatarImage from '../../assets/avtcv.png';
+import { useLanguage } from '../../contexts/LanguageContext';
+import { homeTranslations } from '../../locales/home';
 
 const Hero = () => {
+  const { locale } = useLanguage();
+  const t = homeTranslations[locale].hero;
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isVisible, setIsVisible] = useState(false);
 
@@ -46,25 +50,23 @@ const Hero = () => {
               <div className="flex flex-wrap items-center gap-2">
                 <p className="inline-flex items-center gap-1.5 rounded-full bg-gradient-to-r from-indigo-100 to-purple-100 px-4 py-1.5 text-xs font-medium uppercase tracking-[0.18em] text-indigo-700 dark:bg-indigo-500/20 dark:text-indigo-300 animate-fade-in">
                   <Sparkles size={14} className="animate-pulse" />
-                  Frontend Developer
+                  {t.badge1}
                 </p>
                 <p className="inline-flex items-center gap-1.5 rounded-full bg-gradient-to-r from-emerald-100 to-teal-100 px-4 py-1.5 text-xs font-medium uppercase tracking-[0.18em] text-emerald-700 dark:bg-emerald-500/20 dark:text-emerald-300 animate-fade-in">
                   <Briefcase size={14} />
-                  Job Apply
+                  {t.badge2}
                 </p>
               </div>
               <h1 className="text-4xl font-bold leading-tight text-slate-900 sm:text-5xl md:text-[3.5rem] dark:text-slate-50">
-                Xây giao diện web
+                {t.titleLine1}
                 <br />
                 <span className="bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-600 bg-clip-text text-transparent animate-gradient">
-                  sạch, nhanh, dễ mở rộng
+                  {t.titleLine2}
                 </span>
                 .
               </h1>
               <p className="mt-4 text-base leading-7 text-slate-600 sm:text-lg dark:text-slate-300 max-w-2xl">
-                Tập trung vào <span className="font-semibold text-indigo-600 dark:text-indigo-400">UX</span>,{' '}
-                <span className="font-semibold text-purple-600 dark:text-purple-400">performance</span> và{' '}
-                <span className="font-semibold text-pink-600 dark:text-pink-400">code maintainable</span>. Ưu tiên rõ ràng, đơn giản, dễ scale cho team.
+                {t.subtitle}
               </p>
             </div>
 
@@ -72,11 +74,11 @@ const Hero = () => {
             <div className="flex flex-wrap gap-4 text-sm text-slate-600 dark:text-slate-400">
               <div className="flex items-center gap-2">
                 <MapPin size={16} className="text-indigo-500" />
-                <span>Hóc Môn, Thành phố Hồ Chí Minh</span>
+                <span>{t.location}</span>
               </div>
               <div className="flex items-center gap-2">
                 <Calendar size={16} className="text-purple-500" />
-                <span>Available for opportunities</span>
+                <span>{t.available}</span>
               </div>
             </div>
 
@@ -86,14 +88,14 @@ const Hero = () => {
                 href="#projects"
                 className="group inline-flex items-center justify-center gap-2 rounded-full bg-gradient-to-r from-indigo-600 to-purple-600 px-6 py-3 text-sm font-semibold text-white shadow-lg shadow-indigo-500/50 transition-all duration-300 hover:scale-105 hover:shadow-xl hover:shadow-indigo-500/50"
               >
-                View Projects
+                {t.viewProjects}
                 <ArrowRight size={14} className="transition-transform group-hover:translate-x-1" />
               </a>
               <a
                 href="#contact"
                 className="group inline-flex items-center justify-center gap-2 rounded-full border-2 border-slate-300 bg-white px-6 py-3 text-sm font-semibold text-slate-700 transition-all duration-300 hover:border-indigo-400 hover:bg-indigo-50 hover:text-indigo-700 dark:border-slate-600 dark:bg-slate-800 dark:text-slate-100 dark:hover:border-indigo-500 dark:hover:bg-indigo-900/20"
               >
-                Contact Me
+                {t.contactMe}
                 <Send size={14} className="transition-transform group-hover:translate-x-1" />
               </a>
               <a
@@ -102,7 +104,7 @@ const Hero = () => {
                 className="group inline-flex items-center justify-center gap-2 rounded-full border-2 border-slate-300 bg-white px-6 py-3 text-sm font-semibold text-slate-700 transition-all duration-300 hover:border-emerald-400 hover:bg-emerald-50 hover:text-emerald-700 dark:border-slate-600 dark:bg-slate-800 dark:text-slate-100 dark:hover:border-emerald-500 dark:hover:bg-emerald-900/20"
               >
                 <Download size={14} />
-                Download CV
+                {t.downloadCV}
               </a>
             </div>
           </div>
@@ -154,4 +156,3 @@ const Hero = () => {
 };
 
 export default Hero;
-

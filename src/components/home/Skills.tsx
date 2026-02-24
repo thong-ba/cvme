@@ -1,8 +1,12 @@
 // Skills section
 import { useState, useEffect } from 'react';
 import { LayoutPanelTop, Wrench, CheckCircle2, Palette, Zap } from 'lucide-react';
+import { useLanguage } from '../../contexts/LanguageContext';
+import { homeTranslations } from '../../locales/home';
 
 const Skills = () => {
+  const { locale } = useLanguage();
+  const t = homeTranslations[locale].skills;
   const [isVisible, setIsVisible] = useState(false);
 
   useEffect(() => {
@@ -28,11 +32,8 @@ const Skills = () => {
   }, []);
 
   const coreSkills = ['React', 'TypeScript', 'JavaScript', 'HTML/CSS'];
-
   const frameworks = ['Vite', 'Tailwind CSS', 'React Router', 'Next.js'];
-
   const tools = ['Git', 'Figma', 'REST API', 'React Query'];
-
   const otherSkills = ['Redux', 'Zustand', 'Jest', 'Testing Library', 'Webpack', 'ESLint', 'Prettier'];
 
   return (
@@ -41,7 +42,7 @@ const Skills = () => {
         <div className={`mb-8 transition-all duration-1000 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
           <div className="inline-flex items-center gap-2 mb-3">
             <div className="h-1 w-12 bg-gradient-to-r from-indigo-600 to-purple-600 rounded-full"></div>
-            <h2 className="text-2xl font-bold text-slate-900 sm:text-3xl dark:text-slate-100">Skills</h2>
+            <h2 className="text-2xl font-bold text-slate-900 sm:text-3xl dark:text-slate-100">{t.title}</h2>
           </div>
         </div>
 
@@ -49,7 +50,7 @@ const Skills = () => {
           {/* Core Skills */}
           <div className="rounded-2xl border border-slate-200 bg-gradient-to-br from-white to-indigo-50/30 p-6 shadow-lg dark:border-slate-700 dark:from-slate-800 dark:to-slate-900/50">
             <h3 className="mb-4 flex items-center gap-2 text-lg font-semibold text-slate-900 dark:text-slate-100">
-              <LayoutPanelTop size={20} className="text-indigo-600" /> Core Technologies
+              <LayoutPanelTop size={20} className="text-indigo-600" /> {t.coreTitle}
             </h3>
             <div className="flex flex-wrap gap-2">
               {coreSkills.map((skill, index) => (
@@ -68,7 +69,7 @@ const Skills = () => {
             {/* Frameworks & Libraries */}
             <div className="rounded-2xl border border-slate-200 bg-white/80 p-6 shadow-sm transition-all duration-300 hover:shadow-lg dark:border-slate-700 dark:bg-slate-900/60">
               <h3 className="mb-4 flex items-center gap-2 text-base font-semibold text-slate-900 dark:text-slate-100">
-                <Zap size={18} className="text-purple-600" /> Frameworks & Libraries
+                <Zap size={18} className="text-purple-600" /> {t.frameworksTitle}
               </h3>
               <div className="flex flex-wrap gap-2">
                 {frameworks.map((framework) => (
@@ -85,7 +86,7 @@ const Skills = () => {
             {/* Tools & Others */}
             <div className="rounded-2xl border border-slate-200 bg-white/80 p-6 shadow-sm transition-all duration-300 hover:shadow-lg dark:border-slate-700 dark:bg-slate-900/60">
               <h3 className="mb-4 flex items-center gap-2 text-base font-semibold text-slate-900 dark:text-slate-100">
-                <Wrench size={18} className="text-emerald-600" /> Tools & Others
+                <Wrench size={18} className="text-emerald-600" /> {t.toolsTitle}
               </h3>
               <div className="flex flex-wrap gap-2">
                 {tools.map((tool) => (
@@ -103,7 +104,7 @@ const Skills = () => {
           {/* Other Skills */}
           <div className="rounded-2xl border border-slate-200 bg-white/80 p-6 shadow-sm dark:border-slate-700 dark:bg-slate-900/60">
             <h3 className="mb-4 flex items-center gap-2 text-base font-semibold text-slate-900 dark:text-slate-100">
-              <Palette size={18} className="text-pink-600" /> Additional Skills
+              <Palette size={18} className="text-pink-600" /> {t.additionalTitle}
             </h3>
             <div className="flex flex-wrap gap-2">
               {otherSkills.map((skill) => (
@@ -123,4 +124,3 @@ const Skills = () => {
 };
 
 export default Skills;
-
