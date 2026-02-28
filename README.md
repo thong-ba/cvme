@@ -14,19 +14,49 @@
 
 | Phần | Mô tả |
 |------|--------|
-| **Trang chủ** | CV: Hero, About, Experience, Skills, Projects, Contact |
-| **School Project** | Giới thiệu, Administrators (Tiểu học / THCS / THPT), Hiệu trưởng, Giáo viên, Học sinh, Phụ huynh, Staff Admin |
-| **E-Commerce** | Cửa hàng (sản phẩm, giỏ hàng, đăng nhập), Customer, Seller (sản phẩm, khuyến mãi, đơn hàng, doanh thu), Admin (users, products, orders, permissions, content), Staff, Kho |
+| **Trang chủ** | CV: Hero, About, Experience, Skills, Projects, Contact. Hỗ trợ đa ngôn ngữ (vi/en) qua `LanguageContext`. |
+| **School Project** | Giới thiệu, Administrators (Tiểu học / THCS / THPT, thêm trường), Hiệu trưởng, Giáo viên, Học sinh, Phụ huynh, Staff Admin. Mock data trong `data/index.ts` (trường, giáo viên, học sinh, lịch, điểm, hợp đồng, tài khoản…). |
+| **E-Commerce** | Cửa hàng (sản phẩm, giỏ hàng, đăng nhập/đăng ký/quên mật khẩu, About, Privacy, Return policy, Terms), Customer (trang cá nhân, đơn hàng), Seller (sản phẩm, khuyến mãi, đơn hàng, doanh thu), Admin (users, products, orders, permissions, content), Staff, Kho. |
+
+### Đường dẫn (routes)
+
+Toàn bộ route được định nghĩa trong **một file**: `src/routes/index.tsx`.
+
+| Path | Mô tả |
+|------|--------|
+| `/` | Trang chủ (HomePage) |
+| `/school-project` | Giới thiệu School Project |
+| `/school-project/administrators` | Trang tổng quan Administrators |
+| `/school-project/administrators/tieu-hoc` | Danh sách trường Tiểu học |
+| `/school-project/administrators/thcs` | Danh sách trường THCS |
+| `/school-project/administrators/thpt` | Danh sách trường THPT |
+| `/school-project/administrators/them-truong` | Thêm trường mới |
+| `/school-project/head-masters` | Giao diện Hiệu trưởng |
+| `/school-project/teachers` | Giao diện Giáo viên |
+| `/school-project/parents` | Giao diện Phụ huynh |
+| `/school-project/students` | Giao diện Học sinh |
+| `/school-project/staff-admins` | Giao diện Staff Admin |
+| `/ecommerce` | Giới thiệu E-Commerce |
+| `/ecommerce/store` | Layout cửa hàng (con: `/`, `/products`, `/category/:slug`, `/product/:slug`, `/cart`, `/login`, `/register`, `/forgot-password`, `/about`, `/privacy`, `/return-policy`, `/terms`) |
+| `/ecommerce/customer` | Trang khách hàng (con: `/`, `/order`) |
+| `/ecommerce/seller` | Trang seller (con: `/`, `/products`, `/promotions`, `/orders`, `/revenue`) |
+| `/ecommerce/admin` | Layout admin (con: `/`, `/users`, `/products`, `/orders`, `/permissions`, `/content`) |
+| `/ecommerce/staff` | Trang nhân viên |
+| `/ecommerce/warehouse` | Trang kho |
+| `*` | NotFoundPage |
 
 ---
 
 ## 🛠 Tech stack
 
-- **Build:** Vite 7
-- **UI:** React 19, React Router 7, Ant Design, Tailwind CSS, Lucide React
-- **Charts:** Recharts
-- **Ngôn ngữ:** TypeScript 5.9
-- **Lint:** ESLint 9
+| Loại | Công nghệ |
+|------|-----------|
+| **Build** | Vite 7.x |
+| **Framework** | React 19.x, React Router 7.x |
+| **UI** | Ant Design 6.x, Tailwind CSS 3.x, Lucide React |
+| **Biểu đồ** | Recharts 3.x |
+| **Ngôn ngữ** | TypeScript 5.9 (strict, `verbatimModuleSyntax`) |
+| **Lint** | ESLint 9, eslint-plugin-react-hooks, react-refresh, typescript-eslint |
 
 ---
 
@@ -58,28 +88,71 @@ Mở [http://localhost:5173](http://localhost:5173) trên trình duyệt.
 | Lệnh | Mô tả |
 |------|--------|
 | `npm run dev` | Chạy dev server (HMR) |
-| `npm run build` | Build production (`tsc` + `vite build`) |
+| `npm run build` | Build production: `tsc -b` rồi `vite build` |
 | `npm run preview` | Xem bản build locally |
 | `npm run lint` | Chạy ESLint |
 
+### Biến môi trường (tuỳ chọn)
+
+- `VITE_API_BASE_URL`: Base URL API (mặc định `http://localhost:3000/api`). Dùng trong `config/app.config.ts`.
+
 ---
 
-## 📁 Cấu trúc thư mục (tóm tắt)
+## 📁 Cấu trúc thư mục
 
 ```
 src/
-├── main.tsx              # Entry, RouterProvider
-├── App.tsx                # Root layout
-├── routes/                # Định nghĩa toàn bộ route
-├── components/            # common, home, school, eCommerce
-├── pages/                 # HomePage, SchoolProject/*, ECommerceProject/*
-├── contexts/              # CartContext, StoreAuthContext
-├── data/                  # Mock data (school, ecommerce, admin, seller)
-├── types/                 # TypeScript interfaces
-├── config/                # app.config, storeInfo
-├── utils/                 # formatCurrency, formatDate, toast, ...
-├── hooks/                 # useGeolocation, useVietnamTime
-└── services/              # api.service, geocoding.service
+├── main.tsx                 # Entry: RouterProvider + router
+├── App.tsx                  # Root: LanguageProvider → Layout (Outlet)
+├── index.css                # Global styles (Tailwind)
+├── App.css
+│
+├── routes/
+│   └── index.tsx            # Toàn bộ route (createBrowserRouter)
+│
+├── components/
+│   ├── index.ts             # Re-export: common, home, school (không export eCommerce)
+│   ├── common/              # Layout, Header, Footer
+│   ├── home/                # Hero, About, Skills, Experience, Projects, Contact
+│   ├── school/              # Nhiều component: Admin*, HeadMasters*, Teacher*, Student*, Parents*, Schedule, Grades, ...
+│   └── eCommerce/           # StoreLayout, StoreHeader/Footer, Product*, Cart UI, Breadcrumb, Filter, Sort, ...
+│       ├── seller/          # SellerProductTable, SellerOrderTable, SellerRevenueChart, SellerPromotionList, SellerNavBar
+│       └── admin/           # AdminNavBar
+│
+├── pages/
+│   ├── index.ts             # Export HomePage
+│   ├── HomePage/
+│   ├── NotFoundPage.tsx, RouteErrorPage.tsx
+│   ├── SchoolProject/       # Introduction, Administrators, HeadMasters, Teachers, Parents, Students, StaffAdmins
+│   └── ECommerceProject/    # Introduction, Store, Customer, Seller, Admin, Staff, Warehouse
+│
+├── contexts/
+│   ├── LanguageContext.tsx  # vi/en, localStorage key: cv-locale. Bọc toàn app (App.tsx).
+│   ├── CartContext.tsx     # Giỏ hàng (localStorage). Bọc trong StoreLayout.
+│   └── StoreAuthContext.tsx # Đăng nhập/đăng ký store (demo, localStorage). Dùng trong eCommerce.
+│
+├── data/                    # Mock / static data
+│   ├── index.ts             # School: schoolList, accounts, contracts, dashboard, headMaster*, ...
+│   ├── admin.ts             # Admin E-Commerce: adminUsers, adminRoles, adminStatsByDay
+│   └── seller.ts            # Seller: sellerProductIds, sellerOrders, sellerPromotions, sellerRevenueByDay, topProductsSold
+│
+├── types/
+│   ├── index.ts             # User, ApiResponse, PaginationParams, PaginatedResponse
+│   └── ecommerce.ts         # Category, Product, Order, CartItem, Promotion, RevenueByDay, ...
+│
+├── config/
+│   ├── app.config.ts        # app name, api.baseURL, api.timeout
+│   └── storeInfo.ts         # Thông tin cửa hàng: contact, address, openingHours (dùng cho Footer, About, FloatingContactBar)
+│
+├── utils/
+│   └── index.ts             # formatCurrency, formatDate, getStoredCart, clearStoredCart, debounce, sleep
+│
+├── hooks/
+│   └── index.ts             # useGeolocation, useVietnamTime
+│
+└── services/
+    ├── api.service.ts      # Class ApiService (get/post/put/delete), base từ appConfig
+    └── geocoding.service.ts # Geocoding (nếu dùng)
 ```
 
 ---
@@ -91,6 +164,11 @@ Private project.
 ---
 
 ## 🔧 Ghi chú cho developer
+
+- **Route:** Chỉ thêm/sửa route trong `src/routes/index.tsx` để tránh lệch cấu hình.
+- **Components eCommerce:** Import trực tiếp từ `components/eCommerce/...` hoặc `components/eCommerce/seller`, `components/eCommerce/admin`; không re-export qua `components/index.ts`.
+- **Types:** Dùng `types/index.ts` cho type chung; `types/ecommerce.ts` cho E-Commerce.
+- **Context:** `LanguageProvider` bọc toàn app; `CartProvider` chỉ bọc StoreLayout; `StoreAuthProvider` dùng trong phạm vi eCommerce.
 
 <details>
 <summary><strong>Mở rộng cấu hình ESLint (type-aware)</strong></summary>
