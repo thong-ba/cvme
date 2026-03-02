@@ -28,6 +28,7 @@ import StoreAboutPage from '../pages/ECommerceProject/Store/StoreAboutPage';
 import StorePrivacyPolicyPage from '../pages/ECommerceProject/Store/StorePrivacyPolicyPage';
 import StoreReturnPolicyPage from '../pages/ECommerceProject/Store/StoreReturnPolicyPage';
 import StoreTermsPage from '../pages/ECommerceProject/Store/StoreTermsPage';
+import StoreProfilePage from '../pages/ECommerceProject/Store/StoreProfilePage';
 import { CustomerPage, CustomerOrderPage } from '../pages/ECommerceProject/Customer';
 import {
   SellerPage,
@@ -116,6 +117,7 @@ export const router = createBrowserRouter([
           { path: 'category/:categorySlug', element: <ProductListingPage /> },
           { path: 'product/:productSlug', element: <ProductDetailPage /> },
           { path: 'cart', element: <CartPage /> },
+          { path: 'profile', element: <StoreProfilePage /> },
           { path: 'login', element: <StoreLoginPage /> },
           { path: 'register', element: <StoreRegisterPage /> },
           { path: 'forgot-password', element: <StoreForgotPasswordPage /> },
